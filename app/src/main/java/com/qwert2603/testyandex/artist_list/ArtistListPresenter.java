@@ -7,6 +7,7 @@ import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.util.LogUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscription;
@@ -31,14 +32,23 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
      */
     private boolean mIsNoInternet;
 
+    /**
+     * Текущий поисковый запрос.
+     */
+    private String mQuery;
+
+    /**
+     * Отображаемый список исполнителей. (С учетом поискового запроса).
+     */
+    private List<Artist> mShowingArtistList;
+
     public ArtistListPresenter() {
         loadArtistList(false);
     }
 
     @Override
     protected void onUpdateView(@NonNull ArtistListView view) {
-        List<Artist> artistList = getModel();
-        if (artistList == null) {
+        if (mShowingArtistList == null) {
             // список нельзя обновлять пока он не будет загружен.
             // поэтому отключаем RefreshLayout.
             view.setRefreshingConfig(false, false);
@@ -58,10 +68,14 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
             }
         } else {
             view.setRefreshingConfig(true, mIsLoading);
-            if (artistList.isEmpty()) {
-                view.showEmpty();
+            if (mShowingArtistList.isEmpty()) {
+                if (mQuery == null || mQuery.isEmpty()) {
+                    view.showEmpty();
+                } else {
+                    view.showNothingFound();
+                }
             } else {
-                view.showList(artistList);
+                view.showList(mShowingArtistList);
             }
         }
     }
@@ -73,6 +87,17 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
             mSubscription.unsubscribe();
         }
         super.unbindView();
+    }
+
+    @Override
+    protected void setModel(List<Artist> artistList) {
+        super.setModel(artistList);
+        doSearch();
+        updateView();
+    }
+
+    public String getCurrentQuery() {
+        return mQuery;
     }
 
     /**
@@ -95,7 +120,38 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
      * @param position позиция нажатого исполнителя с списке.
      */
     public void onArtistAtPositionClicked(int position) {
-        getView().moveToArtistDetails(getModel().get(position).getId());
+        getView().moveToArtistDetails(mShowingArtistList.get(position).getId());
+    }
+
+    /**
+     * Действие по случаю изменения поискового запроса.
+     *
+     * @param query поисковый звпрос.
+     */
+    public void onSearchQueryChanged(String query) {
+        mQuery = query;
+        doSearch();
+        updateView();
+    }
+
+    /**
+     * Выполнить поиск в соответствии с текущим запросом.
+     */
+    private void doSearch() {
+        List<Artist> artistList = getModel();
+        mShowingArtistList = null;
+        if (artistList != null) {
+            if (mQuery == null || mQuery.isEmpty()) {
+                mShowingArtistList = artistList;
+            } else {
+                mShowingArtistList = new ArrayList<>();
+                for (Artist artist : artistList) {
+                    if (artist.getName().toLowerCase().contains(mQuery)) {
+                        mShowingArtistList.add(artist);
+                    }
+                }
+            }
+        }
     }
 
     /**

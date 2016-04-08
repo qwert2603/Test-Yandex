@@ -104,6 +104,15 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
     }
 
     /**
+     * Действие по случаю нажатия на плавающую кнопку.
+     */
+    public void onFabClicked() {
+        if (getModel() != null) {
+            getView().moveOnAddress(getModel().getLink());
+        }
+    }
+
+    /**
      * @return ссылка на изображение-обложку данного исполнителя в зависимости от {@link #mCoverType}.
      */
     private String getCoverUrl() {

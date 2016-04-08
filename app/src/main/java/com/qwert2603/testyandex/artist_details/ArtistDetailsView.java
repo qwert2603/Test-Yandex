@@ -48,4 +48,10 @@ public interface ArtistDetailsView extends BaseView {
      * Отобразить сообщение о загрузке.
      */
     void showLoading();
+
+    /**
+     * Перейти по адресу.
+     * @param url адрес
+     */
+    void moveOnAddress(String url);
 }

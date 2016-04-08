@@ -29,4 +29,9 @@ public interface ArtistListView extends ListView<Artist> {
      * @param artistId id исполнителя.
      */
     void moveToArtistDetails(int artistId);
+
+    /**
+     * Отобразить сообщение о том, что ничего не найдено.
+     */
+    void showNothingFound();
 }

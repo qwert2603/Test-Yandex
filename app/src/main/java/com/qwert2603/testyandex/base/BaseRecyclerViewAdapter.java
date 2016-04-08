@@ -124,7 +124,7 @@ public abstract class BaseRecyclerViewAdapter<M, VH extends BaseRecyclerViewAdap
      * @return отображается переданный список или нет?
      */
     public boolean isShowingList(List<M> list) {
-        return mModelList.equals(list);
+        return mModelList == list;
     }
 
     /**

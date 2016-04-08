@@ -1,6 +1,8 @@
 package com.qwert2603.testyandex.artist_details;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -65,6 +67,8 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
         mTracksAndAlbums = (TextView) view.findViewById(R.id.tracks_and_albums);
         mDescription = (TextView) view.findViewById(R.id.description);
 
+        view.findViewById(R.id.fab).setOnClickListener(v -> getPresenter().onFabClicked());
+
         return view;
     }
 
@@ -85,7 +89,10 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
 
     @Override
     public void showName(String name) {
-        setActionBarTitle(name);
+        ActionBar supportActionBar = ((BaseActivity) getActivity()).getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setTitle(name);
+        }
     }
 
     @Override
@@ -108,13 +115,11 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
         mGenres.setText(R.string.loading);
         mTracksAndAlbums.setText(R.string.loading);
         mDescription.setText(R.string.loading);
-        mTracksAndAlbums.setText(R.string.loading);
     }
 
-    private void setActionBarTitle(String title) {
-        ActionBar supportActionBar = ((BaseActivity) getActivity()).getSupportActionBar();
-        if (supportActionBar != null) {
-            supportActionBar.setTitle(title);
-        }
+    @Override
+    public void moveOnAddress(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(intent);
     }
 }

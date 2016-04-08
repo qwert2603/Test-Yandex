@@ -8,8 +8,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewAnimator;
@@ -39,6 +43,7 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     private static final int POSITION_ERROR_TEXT_VIEW = 2;
     private static final int POSITION_EMPTY_TEXT_VIEW = 3;
     private static final int POSITION_NO_INTERNET_TEXT_VIEW = 4;
+    private static final int POSITION_NOTHING_FOUND = 5;
 
     private CoordinatorLayout mCoordinatorLayout;
     private ViewAnimator mViewAnimator;
@@ -48,6 +53,12 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     @Override
     protected ArtistListPresenter createPresenter() {
         return new ArtistListPresenter();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -79,6 +90,33 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.artist_list, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint(getString(R.string.search));
+        String query = getPresenter().getCurrentQuery();
+        if (query != null && !query.isEmpty()) {
+            searchView.performClick();
+            searchView.setQuery(query, true);
+        }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getPresenter().onSearchQueryChanged(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
     public void showNoInternet(boolean snackbar) {
         if (snackbar) {
             Snackbar.make(mCoordinatorLayout, R.string.text_no_internet, Snackbar.LENGTH_SHORT).show();
@@ -98,6 +136,11 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
         Intent intent = new Intent(getActivity(), ArtistDetailsActivity.class);
         intent.putExtra(ArtistDetailsActivity.EXTRA_ARTIST_ID, artistId);
         startActivity(intent);
+    }
+
+    @Override
+    public void showNothingFound() {
+        setViewAnimatorDisplayedChild(POSITION_NOTHING_FOUND);
     }
 
     @Override

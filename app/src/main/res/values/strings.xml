@@ -6,4 +6,6 @@
     <string name="text_no_internet">Нет подключения к интернету!</string>
     <string name="empty_artist_list">Нет исполнителей</string>
     <string name="biography">Биография</string>
+    <string name="search">Поиск</string>
+    <string name="nothing_found">Ничего не найдено!</string>
 </resources>

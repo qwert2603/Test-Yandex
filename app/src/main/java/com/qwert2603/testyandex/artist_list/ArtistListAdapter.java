@@ -89,5 +89,10 @@ public class ArtistListAdapter
             mGenres.setText(R.string.loading);
             mTracksAndAlbums.setText(R.string.loading);
         }
+
+        @Override
+        public void moveOnAddress(String url) {
+            // из элемента списка нельзя переходить по адресу связанному с исплнителем.
+        }
     }
 }
