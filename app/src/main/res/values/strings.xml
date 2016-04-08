@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TestYandex</string>
+    <string name="loading">Загрузка..</string>
+    <string name="text_error_reclick">Ошибка загрузки! Нажмите, для перезагрузки.</string>
+    <string name="text_no_internet_reclick">Нет подключения к интернету! Нажмите, для перезагрузки.</string>
+    <string name="text_no_internet">Нет подключения к интернету!</string>
+    <string name="empty_artist_list">Нет исполнителей</string>
+    <string name="biography">Биография</string>
+</resources>

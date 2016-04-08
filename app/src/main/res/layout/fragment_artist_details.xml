@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/big_cover"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@android:color/transparent"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/genres"
+                style="@style/TextSecondary.WithMargins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genres"/>
+
+            <TextView
+                android:id="@+id/tracks_and_albums"
+                style="@style/TextSecondary.WithMargins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Albums and Songs"/>
+
+            <TextView
+                style="@style/TextMain.WithMargins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/biography"/>
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/TextMain.WithMargins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Реализуйте приложение удобным для вас способом, но только на Java. Используйте любые инструменты и библиотеки. Мы будем оценивать качество кода, а не его объём."/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
