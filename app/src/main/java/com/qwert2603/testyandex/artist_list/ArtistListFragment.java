@@ -83,9 +83,6 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
         mViewAnimator.getChildAt(POSITION_ERROR_TEXT_VIEW).setOnClickListener(v -> getPresenter().onReload());
         mViewAnimator.getChildAt(POSITION_NO_INTERNET_TEXT_VIEW).setOnClickListener(v -> getPresenter().onReload());
 
-        // TODO: 07.04.2016
-        view.findViewById(R.id.fab).setOnClickListener(v -> Snackbar.make(v, "Snack", Snackbar.LENGTH_SHORT).show());
-
         return view;
     }
 
