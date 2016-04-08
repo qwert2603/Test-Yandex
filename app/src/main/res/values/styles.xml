@@ -22,21 +22,9 @@
         <item name="android:textColor">@color/info_text_color</item>
     </style>
 
-    <style name="TextSecondary.WithMargins">
-        <item name="android:layout_marginTop">@dimen/details_text_view_margin</item>
-        <item name="android:layout_marginStart">@dimen/details_text_view_margin</item>
-        <item name="android:layout_marginEnd">@dimen/details_text_view_margin</item>
-    </style>
-
     <style name="TextMain">
         <item name="android:textSize">@dimen/name_text_size</item>
         <item name="android:textColor">@color/name_text_color</item>
-    </style>
-
-    <style name="TextMain.WithMargins">
-        <item name="android:layout_marginTop">@dimen/details_text_view_margin</item>
-        <item name="android:layout_marginStart">@dimen/details_text_view_margin</item>
-        <item name="android:layout_marginEnd">@dimen/details_text_view_margin</item>
     </style>
 
 </resources>
