@@ -15,6 +15,7 @@ import com.qwert2603.testyandex.base.BaseRecyclerViewAdapter;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Адаптер для отображения списка исполнителей в {@link RecyclerView} для шаблона MVP.
@@ -74,8 +75,10 @@ public class ArtistListAdapter
         }
 
         @Override
-        public void showTracksAndAlbums(String tracksAndAlbums) {
-            mTracksAndAlbums.setText(tracksAndAlbums);
+        public void showTracksAndAlbums(int tracks, int albums) {
+            String t = mItemView.getResources().getQuantityString(R.plurals.tracks, tracks);
+            String a = mItemView.getResources().getQuantityString(R.plurals.albums, albums);
+            mTracksAndAlbums.setText(String.format(Locale.ROOT, "%d %s, %d %s", tracks, t, albums, a));
         }
 
         @Override
@@ -93,6 +96,11 @@ public class ArtistListAdapter
         @Override
         public void moveOnAddress(String url) {
             // из элемента списка нельзя переходить по адресу связанному с исплнителем.
+        }
+
+        @Override
+        public void setFabVisibility(boolean visibility) {
+            // у элемента списка нет кнопки, и поэтому не надо настраивать ее видимость.
         }
     }
 }

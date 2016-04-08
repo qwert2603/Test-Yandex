@@ -73,6 +73,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
         if (artist == null) {
             // исполнитель еще загружается.
             view.showLoading();
+            view.setFabVisibility(false);
             return;
         }
 
@@ -90,8 +91,9 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
         view.showName(artist.getName());
         String genresList = artist.getGenres().toString();
         view.showGenres(genresList.substring(1, genresList.length() - 1));
-        view.showTracksAndAlbums(String.format("al: %d, tr: %d)", artist.getAlbums(), artist.getTracks()));// TODO: 07.04.2016
+        view.showTracksAndAlbums(artist.getAlbums(), artist.getTracks());
         view.showDescription(artist.getDescription());
+        view.setFabVisibility(artist.getLink() != null);
     }
 
     @Override

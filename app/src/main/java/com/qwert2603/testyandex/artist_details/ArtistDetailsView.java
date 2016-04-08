@@ -33,9 +33,10 @@ public interface ArtistDetailsView extends BaseView {
     /**
      * Отобразить информацию о количестве песен и альбомов.
      *
-     * @param tracksAndAlbums информация о количестве песен и альбомов.
+     * @param tracks кол-во песен.
+     * @param albums кол-во альбомов.
      */
-    void showTracksAndAlbums(String tracksAndAlbums);
+    void showTracksAndAlbums(int tracks, int albums);
 
     /**
      * Отобразить описание.
@@ -54,4 +55,10 @@ public interface ArtistDetailsView extends BaseView {
      * @param url адрес
      */
     void moveOnAddress(String url);
+
+    /**
+     * Настроить видимость плавающей кнопки.
+     * @param visibility видимость.
+     */
+    void setFabVisibility(boolean visibility);
 }
