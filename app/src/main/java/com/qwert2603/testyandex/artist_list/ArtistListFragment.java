@@ -96,7 +96,7 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
         searchView.setQueryHint(getString(R.string.search));
         String query = getPresenter().getCurrentQuery();
         if (query != null && !query.isEmpty()) {
-            searchView.performClick();
+            searchItem.expandActionView();
             searchView.setQuery(query, true);
         }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
