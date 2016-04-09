@@ -7,10 +7,13 @@ import android.view.View;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BasePresenter;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.util.LogUtils;
+
+import javax.inject.Inject;
 
 import rx.Subscription;
 
@@ -18,6 +21,9 @@ import rx.Subscription;
  * Презентер для управления представлением с подробностями об исполнителе для шаблона MVP.
  */
 public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsView> {
+
+    @Inject
+    DataManager mDataManager;
 
     /**
      * Тип изображения.
@@ -42,8 +48,9 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
      * @param coverType тип изображения для отображения.
      */
     public ArtistDetailsPresenter(int id, CoverType coverType) {
+        TestYandexApplication.getAppComponent().inject(ArtistDetailsPresenter.this);
         mCoverType = coverType;
-        mSubscription = DataManager.get()
+        mSubscription = mDataManager
                 .getArtistById(id, false)
                 .subscribe(
                         model -> ArtistDetailsPresenter.this.setModel(model),
@@ -63,6 +70,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
      * @param coverType тип изображения для отображения.
      */
     public ArtistDetailsPresenter(Artist artist, CoverType coverType) {
+        TestYandexApplication.getAppComponent().inject(ArtistDetailsPresenter.this);
         setModel(artist);
         mCoverType = coverType;
     }

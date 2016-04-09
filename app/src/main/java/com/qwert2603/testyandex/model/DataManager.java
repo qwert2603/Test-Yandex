@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.model;
 
 import android.content.Context;
 
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.InternetUtils;
 
@@ -9,18 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Cache;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
  * Главный класс для работы с данными.
- * Перед началом работы с ним нужно вызвать {@link #initWithAppContext(Context)}.
  * Для получения объекта класса DataManager используется {@link #get()}.
  * Класс позволяет загружать список исполнителей и кешировать его в оперативной памяти.
  */
@@ -28,47 +25,29 @@ public final class DataManager {
 
     private static DataManager sDataManager;
 
-    private static final String BASE_URL = "http://download.cdn.yandex.net/mobilization-2016/";
-
-    private DataManager(Context appContext) {
-        mAppContext = appContext;
-
-        // создаем OkHttpClient, способный кешировать данные.
-        OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.cache(new Cache(mAppContext.getFilesDir(), 10 * 1024 * 1024));   // 10 Мб
-        client.addInterceptor(new CacheInterceptor(appContext));
-        client.addNetworkInterceptor(new CacheInterceptor(appContext));
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
-                .client(client.build())
-                .build();
-
-        mArtistService = retrofit.create(ArtistService.class);
-    }
-
-    /**
-     * Инициализировать DataManager объектом Context приложения.
-     *
-     * @param appContext - объект Context приложения.
-     */
-    public static void initWithAppContext(Context appContext) {
-        if (sDataManager == null) {
-            sDataManager = new DataManager(appContext);
-        }
+    private DataManager() {
+        TestYandexApplication.getAppComponent().inject(DataManager.this);
     }
 
     /**
      * @return объект-синглтон класса DataManager.
      */
     public static DataManager get() {
+            if (sDataManager == null) {
+                synchronized (DataManager.class) {
+                    if (sDataManager == null) {
+                        sDataManager = new DataManager();
+                    }
+                }
+        }
         return sDataManager;
     }
 
-    private Context mAppContext;
-    private ArtistService mArtistService;
+    @Inject
+    Context mAppContext;
+
+    @Inject
+    ArtistService mArtistService;
 
     /**
      * Кешированная версия списка исполнителей.

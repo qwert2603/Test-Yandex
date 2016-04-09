@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.artist_list;
 
 import android.support.annotation.NonNull;
 
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BasePresenter;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.model.DataManager;
@@ -10,12 +11,17 @@ import com.qwert2603.testyandex.util.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Subscription;
 
 /**
  * Презентер для управления представлением со списком исполнителей для шаблона MVP.
  */
 public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListView> {
+
+    @Inject
+    DataManager mDataManager;
 
     /**
      * Подписка на получение списка исполнителей.
@@ -43,6 +49,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
     private List<Artist> mShowingArtistList;
 
     public ArtistListPresenter() {
+        TestYandexApplication.getAppComponent().inject(ArtistListPresenter.this);
         loadArtistList(false);
     }
 
@@ -104,7 +111,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
      * Загрузить список исполнителей заново.
      */
     public void onReload() {
-        if (!DataManager.get().isInternetConnected()) {
+        if (!mDataManager.isInternetConnected()) {
             // если нет подключения к интернету, отменяем процесс обновления и выводим сообщение о том, что нет интернета.
             getView().setRefreshingConfig(true, false);
             getView().showNoInternet(getModel() != null);
@@ -164,7 +171,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
             // отписываемся от прежней подписки на получение списка исполнителей.
             mSubscription.unsubscribe();
         }
-        mSubscription = DataManager.get()
+        mSubscription = mDataManager
                 .getArtistList(refresh)
                 .subscribe(
                         artistList -> {

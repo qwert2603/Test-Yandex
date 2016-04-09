@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
@@ -42,4 +43,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 }

@@ -3,9 +3,12 @@ package com.qwert2603.testyandex.model;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.util.InternetUtils;
 
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
@@ -17,12 +20,28 @@ import okhttp3.Response;
  * Если есть подключение к интернету, данные будут загружены заново.
  * Если нет - будет загружена кешированная версия, если она есть. (максимум 4-х недельной давности).
  */
-public class CacheInterceptor implements Interceptor {
+public final class CacheInterceptor implements Interceptor {
 
-    private Context mAppContext;
+    public static final String TAG = "CacheInterceptor";
 
-    public CacheInterceptor(Context appContext) {
-        mAppContext = appContext;
+    private static CacheInterceptor sCacheInterceptor;
+
+    public static CacheInterceptor get() {
+        if (sCacheInterceptor == null) {
+            synchronized (CacheInterceptor.class) {
+                if (sCacheInterceptor == null) {
+                    sCacheInterceptor = new CacheInterceptor();
+                }
+            }
+        }
+        return sCacheInterceptor;
+    }
+
+    @Inject
+    Context mAppContext;
+
+    private CacheInterceptor() {
+        TestYandexApplication.getAppComponent().inject(CacheInterceptor.this);
     }
 
     @Override
