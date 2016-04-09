@@ -17,6 +17,9 @@ import com.qwert2603.testyandex.model.entity.Artist;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Адаптер для отображения списка исполнителей в {@link RecyclerView} для шаблона MVP.
  */
@@ -46,17 +49,21 @@ public class ArtistListAdapter
             extends BaseRecyclerViewAdapter<?, ?, ArtistDetailsPresenter>.RecyclerViewHolder
             implements ArtistDetailsView {
 
-        private ImageView mCover;
-        private TextView mName;
-        private TextView mGenres;
-        private TextView mTracksAndAlbums;
+        @Bind(R.id.cover)
+        ImageView mCover;
+
+        @Bind(R.id.name)
+        TextView mName;
+
+        @Bind(R.id.genres)
+        TextView mGenres;
+
+        @Bind(R.id.tracks_and_albums)
+        TextView mTracksAndAlbums;
 
         public ArtistDetailsViewHolder(View itemView) {
             super(itemView);
-            mCover = (ImageView) itemView.findViewById(R.id.cover);
-            mName = (TextView) itemView.findViewById(R.id.name);
-            mGenres = (TextView) itemView.findViewById(R.id.genres);
-            mTracksAndAlbums = (TextView) itemView.findViewById(R.id.tracks_and_albums);
+            ButterKnife.bind(ArtistDetailsViewHolder.this, itemView);
         }
 
         @Override

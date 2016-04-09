@@ -26,6 +26,9 @@ import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Фрагмент, отображающий список исполнителей.
  */
@@ -45,10 +48,20 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     private static final int POSITION_NO_INTERNET_TEXT_VIEW = 4;
     private static final int POSITION_NOTHING_FOUND = 5;
 
-    private CoordinatorLayout mCoordinatorLayout;
-    private ViewAnimator mViewAnimator;
-    private SwipeRefreshLayout mRefreshLayout;
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.coordinator)
+    CoordinatorLayout mCoordinatorLayout;
+
+    @Bind(R.id.view_animator)
+    ViewAnimator mViewAnimator;
+
+    @Bind(R.id.refresh_layout)
+    SwipeRefreshLayout mRefreshLayout;
+
+    @Bind(R.id.recycler_view)
+    RecyclerView mRecyclerView;
 
     @Override
     protected ArtistListPresenter createPresenter() {
@@ -66,18 +79,13 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_artist_list, container, false);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+        ButterKnife.bind(ArtistListFragment.this, view);
 
-        mCoordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinator);
+        ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
 
-        mViewAnimator = (ViewAnimator) view.findViewById(R.id.view_animator);
-
-        mRefreshLayout = (SwipeRefreshLayout) mViewAnimator.getChildAt(POSITION_REFRESH_LAYOUT);
         mRefreshLayout.setOnRefreshListener(getPresenter()::onReload);
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mViewAnimator.getChildAt(POSITION_ERROR_TEXT_VIEW).setOnClickListener(v -> getPresenter().onReload());

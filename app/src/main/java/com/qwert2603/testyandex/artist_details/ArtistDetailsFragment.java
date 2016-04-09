@@ -21,6 +21,9 @@ import com.qwert2603.testyandex.base.BaseFragment;
 
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Фрагмент, отображающий поднобности об исполнителе.
  */
@@ -36,11 +39,23 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
         return fragment;
     }
 
-    private ImageView mCover;
-    private TextView mGenres;
-    private TextView mTracksAndAlbums;
-    private TextView mDescription;
-    private FloatingActionButton mFab;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.cover)
+    ImageView mCover;
+
+    @Bind(R.id.genres)
+    TextView mGenres;
+
+    @Bind(R.id.tracks_and_albums)
+    TextView mTracksAndAlbums;
+
+    @Bind(R.id.description)
+    TextView mDescription;
+
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
 
     @Override
     protected ArtistDetailsPresenter createPresenter() {
@@ -59,19 +74,14 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_artist_details, container, false);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+        ButterKnife.bind(ArtistDetailsFragment.this, view);
+
+        ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
         ActionBar supportActionBar = ((BaseActivity) getActivity()).getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mCover = (ImageView) view.findViewById(R.id.cover);
-        mGenres = (TextView) view.findViewById(R.id.genres);
-        mTracksAndAlbums = (TextView) view.findViewById(R.id.tracks_and_albums);
-        mDescription = (TextView) view.findViewById(R.id.description);
-
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mFab.setOnClickListener(v -> getPresenter().onFabClicked());
 
         return view;
