@@ -54,7 +54,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
     }
 
     @Override
-    protected void onUpdateView(@NonNull ArtistListView view) {
+    public void onUpdateView(@NonNull ArtistListView view) {
         if (mShowingArtistList == null) {
             // список нельзя обновлять пока он не будет загружен.
             // поэтому отключаем RefreshLayout.

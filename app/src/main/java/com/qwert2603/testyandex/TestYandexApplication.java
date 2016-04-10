@@ -16,9 +16,6 @@ import com.qwert2603.testyandex.util.InternalStorageViewer;
 
 import java.io.File;
 
-import dagger.Module;
-
-@Module
 public class TestYandexApplication extends Application {
 
     private static AppComponent sAppComponent;
@@ -31,9 +28,7 @@ public class TestYandexApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sAppComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(TestYandexApplication.this))
-                .build();
+        sAppComponent = buildComponent();
 
         InternalStorageViewer.print(TestYandexApplication.this);
 
@@ -57,6 +52,12 @@ public class TestYandexApplication extends Application {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build();
         ImageLoader.getInstance().init(config);
+    }
+
+    protected AppComponent buildComponent() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(TestYandexApplication.this))
+                .build();
     }
 
 }

@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * Компонент прилжения для Dagger.
+ * Компонент приложения для Dagger.
  */
 @Singleton
 @Component(modules = {AppModule.class, ModelModule.class, PresenterModule.class, ViewModule.class})
