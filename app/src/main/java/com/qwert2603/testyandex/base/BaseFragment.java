@@ -6,7 +6,7 @@ import android.support.annotation.CallSuper;
 
 /**
  * Базовый фрагмент, построенный для работы с шаблоном MVP.
- * Содержит презентер {@link #mPresenter} и организует взаимодействие с ним:
+ * Организует взаимодействие с презентером:
  * - привязка/отвязка {@link BasePresenter#bindView(BaseView)}, {@link BasePresenter#unbindView()}.
  * - уведомление о готовности {@link BasePresenter#onViewReady()}, {@link BasePresenter#onViewNotReady()}.
  *
@@ -14,21 +14,12 @@ import android.support.annotation.CallSuper;
  */
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment implements BaseView {
 
-    private P mPresenter;
-
     /**
-     * Создание презентера, организующего работу фрагмента.
+     * Получить презентер, организующий работу этого фрагмента.
      *
-     * @return созданный презентер для этого фрагмента.
+     * @return презентер для этого фрагмента.
      */
-    protected abstract P createPresenter();
-
-    /**
-     * @return презентер, организующий работу фрагмента, созданный с помощью {@link #createPresenter()}.
-     */
-    protected final P getPresenter() {
-        return mPresenter;
-    }
+    protected abstract P getPresenter();
 
     @SuppressWarnings("unchecked")
     @CallSuper
@@ -38,14 +29,13 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         // Сохраняем состояние, чтобы не создавать презентер заново.
         // Это позволяет не прерывать загрузку, если презентер что-то загружает.
         setRetainInstance(true);
-        mPresenter = createPresenter();
-        mPresenter.bindView(this);
+        getPresenter().bindView(this);
     }
 
     @CallSuper
     @Override
     public void onDestroy() {
-        mPresenter.unbindView();
+        getPresenter().unbindView();
         super.onDestroy();
     }
 
@@ -53,13 +43,13 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.onViewReady();
+        getPresenter().onViewReady();
     }
 
     @CallSuper
     @Override
     public void onPause() {
-        mPresenter.onViewNotReady();
+        getPresenter().onViewNotReady();
         super.onPause();
     }
 

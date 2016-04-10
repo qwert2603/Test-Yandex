@@ -16,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qwert2603.testyandex.R;
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BaseActivity;
 import com.qwert2603.testyandex.base.BaseFragment;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,14 +60,25 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
     @Bind(R.id.fab)
     FloatingActionButton mFab;
 
+    @Inject
+    ArtistDetailsPresenter mArtistDetailsPresenter;
+
     @Override
-    protected ArtistDetailsPresenter createPresenter() {
+    protected ArtistDetailsPresenter getPresenter() {
         // в фрагменте с подробностями об исполнителе отображается большая версия изображения-обложки.
-        return new ArtistDetailsPresenter(getArguments().getInt(artistIdKey), ArtistDetailsPresenter.CoverType.BIG);
+        //return new ArtistDetailsPresenter(getArguments().getInt(artistIdKey), ArtistDetailsPresenter.CoverType.BIG);
+        return mArtistDetailsPresenter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        TestYandexApplication.getAppComponent().inject(ArtistDetailsFragment.this);
+
+        mArtistDetailsPresenter.setArtistId(getArguments().getInt(artistIdKey));
+
+        // в фрагменте с подробностями об исполнителе отображается большая версия изображения-обложки.
+        mArtistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.BIG);
+
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -82,7 +96,7 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mFab.setOnClickListener(v -> getPresenter().onFabClicked());
+        mFab.setOnClickListener(v -> mArtistDetailsPresenter.onFabClicked());
 
         return view;
     }

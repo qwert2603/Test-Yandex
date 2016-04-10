@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.model;
 
 import android.content.Context;
 
+import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.TestYandexApplication;
 
 import javax.inject.Inject;
@@ -35,7 +36,7 @@ public final class ArtistServiceHelper {
     Context mAppContext;
 
     @Inject
-    @Named(CacheInterceptor.TAG)
+    @Named(Const.CACHE_INTERCEPTOR)
     Interceptor mInterceptor;
 
     private ArtistServiceHelper() {

@@ -19,12 +19,15 @@ import android.view.ViewGroup;
 import android.widget.ViewAnimator;
 
 import com.qwert2603.testyandex.R;
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsActivity;
 import com.qwert2603.testyandex.base.BaseActivity;
 import com.qwert2603.testyandex.base.BaseFragment;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -63,13 +66,17 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    @Inject
+    ArtistListPresenter mArtistListPresenter;
+
     @Override
-    protected ArtistListPresenter createPresenter() {
-        return new ArtistListPresenter();
+    protected ArtistListPresenter getPresenter() {
+        return mArtistListPresenter;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        TestYandexApplication.getAppComponent().inject(ArtistListFragment.this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -83,13 +90,13 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
 
         ((BaseActivity) getActivity()).setSupportActionBar(mToolbar);
 
-        mRefreshLayout.setOnRefreshListener(getPresenter()::onReload);
+        mRefreshLayout.setOnRefreshListener(mArtistListPresenter::onReload);
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mViewAnimator.getChildAt(POSITION_ERROR_TEXT_VIEW).setOnClickListener(v -> getPresenter().onReload());
-        mViewAnimator.getChildAt(POSITION_NO_INTERNET_TEXT_VIEW).setOnClickListener(v -> getPresenter().onReload());
+        mViewAnimator.getChildAt(POSITION_ERROR_TEXT_VIEW).setOnClickListener(v -> mArtistListPresenter.onReload());
+        mViewAnimator.getChildAt(POSITION_NO_INTERNET_TEXT_VIEW).setOnClickListener(v -> mArtistListPresenter.onReload());
 
         return view;
     }
@@ -102,7 +109,7 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setIconifiedByDefault(false);
         searchView.setQueryHint(getString(R.string.search));
-        String query = getPresenter().getCurrentQuery();
+        String query = mArtistListPresenter.getCurrentQuery();
         if (query != null && !query.isEmpty()) {
             searchItem.expandActionView();
             searchView.setQuery(query, true);
@@ -115,7 +122,7 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getPresenter().onSearchQueryChanged(newText);
+                mArtistListPresenter.onSearchQueryChanged(newText);
                 return true;
             }
         });
@@ -173,7 +180,7 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
         } else {
             // иначе - создаем новый адаптер.
             adapter = new ArtistListAdapter(list);
-            adapter.setClickCallbacks(position -> getPresenter().onArtistAtPositionClicked(position));
+            adapter.setClickCallbacks(position -> mArtistListPresenter.onArtistAtPositionClicked(position));
             mRecyclerView.setAdapter(adapter);
         }
     }

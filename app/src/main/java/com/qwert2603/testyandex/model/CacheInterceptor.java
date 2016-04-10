@@ -20,27 +20,12 @@ import okhttp3.Response;
  * Если есть подключение к интернету, данные будут загружены заново.
  * Если нет - будет загружена кешированная версия, если она есть. (максимум 4-х недельной давности).
  */
-public final class CacheInterceptor implements Interceptor {
-
-    public static final String TAG = "CacheInterceptor";
-
-    private static CacheInterceptor sCacheInterceptor;
-
-    public static CacheInterceptor get() {
-        if (sCacheInterceptor == null) {
-            synchronized (CacheInterceptor.class) {
-                if (sCacheInterceptor == null) {
-                    sCacheInterceptor = new CacheInterceptor();
-                }
-            }
-        }
-        return sCacheInterceptor;
-    }
+public class CacheInterceptor implements Interceptor {
 
     @Inject
     Context mAppContext;
 
-    private CacheInterceptor() {
+    public CacheInterceptor() {
         TestYandexApplication.getAppComponent().inject(CacheInterceptor.this);
     }
 

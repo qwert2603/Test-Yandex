@@ -43,13 +43,22 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
      */
     private CoverType mCoverType;
 
-    /**
-     * @param id        - id исполнителя.
-     * @param coverType тип изображения для отображения.
-     */
-    public ArtistDetailsPresenter(int id, CoverType coverType) {
+    public ArtistDetailsPresenter() {
         TestYandexApplication.getAppComponent().inject(ArtistDetailsPresenter.this);
-        mCoverType = coverType;
+    }
+
+    public ArtistDetailsPresenter(Artist artist, CoverType coverType) {
+        this();
+        setArtist(artist);
+        setCoverType(coverType);
+    }
+
+    /**
+     * Назначить id исполнителя, для которого рпедназначается этот презентер.
+     *
+     * @param id id исполнителя.
+     */
+    public void setArtistId(int id) {
         mSubscription = mDataManager
                 .getArtistById(id, false)
                 .subscribe(
@@ -66,12 +75,20 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
     }
 
     /**
-     * @param artist    объект исполнителя.
+     * Назначить объект исполнителя, для которого рпедназначается этот презентер.
+     *
+     * @param artist объект исполнителя.
+     */
+    public void setArtist(Artist artist) {
+        setModel(artist);
+    }
+
+    /**
+     * Назначить тип изображения, которое передает во View этот презентер.
+     *
      * @param coverType тип изображения для отображения.
      */
-    public ArtistDetailsPresenter(Artist artist, CoverType coverType) {
-        TestYandexApplication.getAppComponent().inject(ArtistDetailsPresenter.this);
-        setModel(artist);
+    public void setCoverType(CoverType coverType) {
         mCoverType = coverType;
     }
 

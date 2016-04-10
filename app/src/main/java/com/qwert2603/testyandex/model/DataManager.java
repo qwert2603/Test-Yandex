@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.model;
 
 import android.content.Context;
 
+import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.InternetUtils;
@@ -11,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.Scheduler;
 
 /**
  * Главный класс для работы с данными.
@@ -49,6 +50,14 @@ public final class DataManager {
     @Inject
     ArtistService mArtistService;
 
+    @Inject
+    @Named(Const.UI_THREAD)
+    Scheduler mUiScheduler;
+
+    @Inject
+    @Named(Const.IO_THREAD)
+    Scheduler mIoScheduler;
+
     /**
      * Кешированная версия списка исполнителей.
      */
@@ -75,8 +84,8 @@ public final class DataManager {
             observable = getArtistListFromInternetObservable();
         }
         return observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(mIoScheduler)
+                .observeOn(mUiScheduler);
     }
 
     /**
@@ -106,16 +115,16 @@ public final class DataManager {
         // если исполнитель уже кеширован в памяти, и не надо обновлять данные, просто возвращаем его.
         if (!refresh && artist != null) {
             return Observable.just(artist)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
+                    .subscribeOn(mIoScheduler)
+                    .observeOn(mUiScheduler);
         }
         // иначе загружаем список исполнителей и выбираем нужного.
         return getArtistList(refresh)
                 .flatMap(Observable::from)
                 .filter(artist1 -> artist1.getId() == id)
                 .limit(1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(mIoScheduler)
+                .observeOn(mUiScheduler);
     }
 
     /**

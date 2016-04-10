@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qwert2603.testyandex.di.AppComponent;
+import com.qwert2603.testyandex.di.AppModule;
 import com.qwert2603.testyandex.di.DaggerAppComponent;
 import com.qwert2603.testyandex.util.InternalStorageViewer;
 
@@ -20,12 +21,7 @@ import dagger.Module;
 @Module
 public class TestYandexApplication extends Application {
 
-    private static TestYandexApplication sTestYandexApplication;
     private static AppComponent sAppComponent;
-
-    public static TestYandexApplication getTestYandexApplication() {
-        return sTestYandexApplication;
-    }
 
     public static AppComponent getAppComponent() {
         return sAppComponent;
@@ -35,8 +31,9 @@ public class TestYandexApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sTestYandexApplication = TestYandexApplication.this;
-        sAppComponent = DaggerAppComponent.builder().build();
+        sAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(TestYandexApplication.this))
+                .build();
 
         InternalStorageViewer.print(TestYandexApplication.this);
 
