@@ -47,18 +47,13 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
         TestYandexApplication.getAppComponent().inject(ArtistDetailsPresenter.this);
     }
 
-    public ArtistDetailsPresenter(Artist artist, CoverType coverType) {
-        this();
-        setArtist(artist);
-        setCoverType(coverType);
-    }
-
     /**
      * Назначить id исполнителя, для которого рпедназначается этот презентер.
      *
      * @param id id исполнителя.
      */
     public void setArtistId(int id) {
+        setModel(null);
         mSubscription = mDataManager
                 .getArtistById(id, false)
                 .subscribe(

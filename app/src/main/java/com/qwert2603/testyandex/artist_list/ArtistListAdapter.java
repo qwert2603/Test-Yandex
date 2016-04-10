@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qwert2603.testyandex.R;
+import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsPresenter;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsView;
 import com.qwert2603.testyandex.base.BaseRecyclerViewAdapter;
@@ -16,6 +17,8 @@ import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.util.List;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,12 +34,6 @@ public class ArtistListAdapter
     }
 
     @Override
-    protected ArtistDetailsPresenter createPresenter(Artist artist) {
-        // в элементе списка отображается маленькая версия изображения-обложки исполнителя.
-        return new ArtistDetailsPresenter(artist, ArtistDetailsPresenter.CoverType.SMALL);
-    }
-
-    @Override
     public ArtistDetailsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_artist, parent, false);
         return new ArtistDetailsViewHolder(view);
@@ -46,7 +43,7 @@ public class ArtistListAdapter
      * Класс ViewHolder, отвечающий за отображение данных об отдельном исполнителе.
      */
     public class ArtistDetailsViewHolder
-            extends BaseRecyclerViewAdapter<?, ?, ArtistDetailsPresenter>.RecyclerViewHolder
+            extends BaseRecyclerViewAdapter<Artist, ?, ArtistDetailsPresenter>.RecyclerViewHolder
             implements ArtistDetailsView {
 
         @Bind(R.id.cover)
@@ -61,8 +58,24 @@ public class ArtistListAdapter
         @Bind(R.id.tracks_and_albums)
         TextView mTracksAndAlbums;
 
+        @Inject
+        ArtistDetailsPresenter mArtistDetailsPresenter;
+
+        @Override
+        protected ArtistDetailsPresenter getPresenter() {
+            return mArtistDetailsPresenter;
+        }
+
+        @Override
+        protected void setModel(Artist artist) {
+            mArtistDetailsPresenter.setArtist(artist);
+        }
+
         public ArtistDetailsViewHolder(View itemView) {
             super(itemView);
+            TestYandexApplication.getAppComponent().inject(ArtistDetailsViewHolder.this);
+            // в элементе списка отображается маленькая версия изображения-обложки исполнителя.
+            mArtistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.SMALL);
             ButterKnife.bind(ArtistDetailsViewHolder.this, itemView);
         }
 

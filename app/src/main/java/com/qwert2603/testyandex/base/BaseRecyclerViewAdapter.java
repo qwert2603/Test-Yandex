@@ -81,19 +81,13 @@ public abstract class BaseRecyclerViewAdapter<M, VH extends BaseRecyclerViewAdap
         mRecyclerViewSelector.setSelectedPosition(position);
     }
 
-    /**
-     * Создать презентер для объекта модели.
-     *
-     * @param model объект модели.
-     * @return созданный презентер.
-     */
-    protected abstract P createPresenter(M model);
 
     @SuppressWarnings("unchecked")
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        // создаем и привязываем презентер к viewHolder'у элемента.
-        holder.bindPresenter(createPresenter(mModelList.get(position)));
+        // назначаем модель viewHolder'у элемента.
+        holder.setModel(mModelList.get(position));
+        holder.bindPresenter();
         // отображаем выделен элемент или нет.
         mRecyclerViewSelector.showWhetherItemSelected(holder.mItemView, position);
     }
@@ -161,7 +155,6 @@ public abstract class BaseRecyclerViewAdapter<M, VH extends BaseRecyclerViewAdap
      * и хранящий ссылки на отображаемые View (TextView, например).
      */
     public abstract class RecyclerViewHolder extends RecyclerView.ViewHolder implements BaseView {
-        private P mPresenter;
         public View mItemView;
 
         public RecyclerViewHolder(View itemView) {
@@ -177,40 +170,39 @@ public abstract class BaseRecyclerViewAdapter<M, VH extends BaseRecyclerViewAdap
                 if (mLongClickCallbacks != null) {
                     mLongClickCallbacks.onItemLongClicked(getLayoutPosition());
                 }
-                return false;
+                return true;
             });
         }
 
         /**
-         * @return презентер, организующий работу элемента, созданный с помощью {@link #createPresenter(Object)}.
+         * Получить презентер, организующий работу этого элемента.
+         *
+         * @return презентер, организующий работу элемента.
          */
-        protected final P getPresenter() {
-            return mPresenter;
-        }
+        protected abstract P getPresenter();
 
         /**
-         * Привязать презентер.
+         * Назначить модель для этого элемента.
          *
-         * @param presenter презентер для привязки к этом элементу.
+         * @param model объект модели.
+         */
+        protected abstract void setModel(M model);
+
+        /**
+         * Привязать презентер, предназначенный для этого ViewHolder'a.
          */
         @SuppressWarnings("unchecked")
-        public void bindPresenter(P presenter) {
-            if (mPresenter != null) {
-                // отвязываем старый презентер, если он есть.
-                unbindPresenter();
-            }
-            mPresenter = presenter;
-            mPresenter.bindView(RecyclerViewHolder.this);
-            mPresenter.onViewReady();
+        public void bindPresenter() {
+            getPresenter().bindView(RecyclerViewHolder.this);
+            getPresenter().onViewReady();
         }
 
         /**
-         * Отвязать презентер.
+         * Отвязать презентер, предназначенный для этого ViewHolder'a.
          */
         public void unbindPresenter() {
-            mPresenter.onViewNotReady();
-            mPresenter.unbindView();
-            mPresenter = null;
+            getPresenter().onViewNotReady();
+            getPresenter().unbindView();
         }
     }
 

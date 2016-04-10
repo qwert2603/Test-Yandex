@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.di;
 
 import com.qwert2603.testyandex.artist_details.ArtistDetailsFragment;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsPresenter;
+import com.qwert2603.testyandex.artist_list.ArtistListAdapter;
 import com.qwert2603.testyandex.artist_list.ArtistListFragment;
 import com.qwert2603.testyandex.artist_list.ArtistListPresenter;
 import com.qwert2603.testyandex.model.ArtistServiceHelper;
@@ -32,5 +33,7 @@ public interface AppComponent {
     void inject(ArtistListFragment artistListFragment);
 
     void inject(ArtistDetailsFragment artistDetailsFragment);
+
+    void inject(ArtistListAdapter.ArtistDetailsViewHolder artistDetailsViewHolder);
 
 }
