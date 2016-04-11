@@ -9,6 +9,7 @@ import dagger.Provides;
 
 @Module
 public class PresenterTestModule {
+
     @Provides
     @Singleton
     DataManager provideDataManager() {

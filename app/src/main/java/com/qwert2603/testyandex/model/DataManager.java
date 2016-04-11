@@ -81,26 +81,19 @@ public final class DataManager {
             observable = Observable.just(mArtistList);
         } else {
             // иначе загружаем данные.
-            observable = getArtistListFromInternetObservable();
+            observable = mArtistService
+                    .getArtistList()
+                    .doOnNext((List<Artist> artistList) -> {
+                        mArtistList = artistList;
+                        mArtistMap = new HashMap<>();
+                        for (Artist artist : artistList) {
+                            mArtistMap.put(artist.getId(), artist);
+                        }
+                    });
         }
         return observable
                 .subscribeOn(mIoScheduler)
                 .observeOn(mUiScheduler);
-    }
-
-    /**
-     * Observable для получения списка исполнителей.
-     */
-    private Observable<List<Artist>> getArtistListFromInternetObservable() {
-        return mArtistService
-                .getArtistList()
-                .doOnNext((List<Artist> artistList) -> {
-                    mArtistList = artistList;
-                    mArtistMap = new HashMap<>();
-                    for (Artist artist : artistList) {
-                        mArtistMap.put(artist.getId(), artist);
-                    }
-                });
     }
 
     /**

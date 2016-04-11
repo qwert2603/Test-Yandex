@@ -2,22 +2,17 @@ package com.qwert2603.testyandex.model;
 
 import android.content.Context;
 
-import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.TestYandexApplication;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import okhttp3.Cache;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class ArtistServiceHelper {
-
-    private static final String BASE_URL = "http://download.cdn.yandex.net/mobilization-2016/";
 
     private static ArtistServiceHelper sArtistServiceHelper;
 
@@ -35,25 +30,21 @@ public final class ArtistServiceHelper {
     @Inject
     Context mAppContext;
 
-    @Inject
-    @Named(Const.CACHE_INTERCEPTOR)
-    Interceptor mInterceptor;
-
     private ArtistServiceHelper() {
         TestYandexApplication.getAppComponent().inject(ArtistServiceHelper.this);
     }
 
-    public ArtistService getArtistService() {
+    public ArtistService getArtistService(String baseUrl) {
         // создаем OkHttpClient, способный кешировать данные.
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(new Cache(mAppContext.getFilesDir(), 10 * 1024 * 1024));   // 10 Мб
-        client.addInterceptor(mInterceptor);
-        client.addNetworkInterceptor(mInterceptor);
+        client.addInterceptor(new CacheInterceptor());
+        client.addNetworkInterceptor(new CacheInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .client(client.build())
                 .build();
 

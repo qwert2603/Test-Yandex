@@ -27,16 +27,15 @@ public class ArtistListFragmentTest {
     @Inject
     ArtistListPresenter mArtistListPresenter;
 
-    ArtistListActivity mArtistListActivity;
-    ArtistListFragment mArtistListFragment;
+    private ArtistListFragment mArtistListFragment;
 
     @Before
     public void setUp() {
         TestComponent testComponent = (TestComponent) TestApplication.getAppComponent();
         testComponent.inject(ArtistListFragmentTest.this);
 
-        mArtistListActivity = Robolectric.setupActivity(ArtistListActivity.class);
-        mArtistListFragment = (ArtistListFragment) mArtistListActivity.getFragmentManager()
+        ArtistListActivity artistListActivity = Robolectric.setupActivity(ArtistListActivity.class);
+        mArtistListFragment = (ArtistListFragment) artistListActivity.getFragmentManager()
                 .findFragmentById(R.id.fragment_container);
         mArtistListFragment.setAppComponent(testComponent);
     }
