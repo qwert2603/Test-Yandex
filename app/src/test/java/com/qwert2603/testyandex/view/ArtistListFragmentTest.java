@@ -19,6 +19,13 @@ import javax.inject.Inject;
 
 import static org.mockito.Mockito.verify;
 
+/**
+ * Тесты для {@link ArtistListFragment}.
+ * Тестируется корректность привязки/отвязки презентера,
+ * а также корректность вызовов у презентера:
+ * {@link ArtistListPresenter#onViewReady()},
+ * {@link ArtistListPresenter#onViewNotReady()}.
+ */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
 public class ArtistListFragmentTest {

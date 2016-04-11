@@ -21,6 +21,12 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
+/**
+ * Тест для {@link DataManager}.
+ * Тестируется корректность методов:
+ * {@link DataManager#getArtistList(boolean)},
+ * {@link DataManager#getArtistById(int, boolean)}.
+ */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
 public class DataManagerTest {
@@ -79,7 +85,7 @@ public class DataManagerTest {
                 Integer::equals
         ).subscribe(Assert::assertTrue);
 
-        // DataManager#.getArtistList() должен быть вызван только 1 раз,
+        // DataManager#.getArtistList() должен быть вызван только 1 раз, несмотря на 2 вызова #getArtistById()
         // так как в DataManager реализовано кеширование.
         Mockito.verify(mArtistService, Mockito.times(1)).getArtistList();
     }

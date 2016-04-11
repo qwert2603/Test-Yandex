@@ -14,7 +14,7 @@ public class TestUtils {
         System.out.println(log);
     }
 
-    public static  <T> T readJson(String fileName, Class<T> inClass) {
+    public static <T> T readJson(String fileName, Class<T> inClass) {
         return gson.fromJson(readString(fileName), inClass);
     }
 

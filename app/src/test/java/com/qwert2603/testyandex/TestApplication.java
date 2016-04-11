@@ -4,6 +4,10 @@ import com.qwert2603.testyandex.di.AppComponent;
 import com.qwert2603.testyandex.di.AppTestModule;
 import com.qwert2603.testyandex.di.DaggerTestComponent;
 
+/**
+ * Приложение для тестов.
+ * Позволяет создавать тестовый компонет для Dagger.
+ */
 public class TestApplication extends TestYandexApplication {
 
     @Override

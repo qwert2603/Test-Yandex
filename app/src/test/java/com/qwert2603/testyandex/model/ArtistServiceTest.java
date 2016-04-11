@@ -26,6 +26,11 @@ import java.util.List;
 
 import rx.Observable;
 
+/**
+ * Тесты для {@link ArtistService}.
+ * Тестируется корректность метода {@link ArtistService#getArtistList()}.
+ * Для имитации работы с сетью используется {@link MockWebServer}.
+ */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
 public class ArtistServiceTest {
