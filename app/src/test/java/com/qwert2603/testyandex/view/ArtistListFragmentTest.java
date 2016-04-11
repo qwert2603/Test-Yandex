@@ -17,7 +17,6 @@ import org.robolectric.annotation.Config;
 
 import javax.inject.Inject;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -38,11 +37,6 @@ public class ArtistListFragmentTest {
         mArtistListFragment = (ArtistListFragment) artistListActivity.getFragmentManager()
                 .findFragmentById(R.id.fragment_container);
         mArtistListFragment.setAppComponent(testComponent);
-    }
-
-    @Test
-    public void testEqualPresenters() {
-        assertEquals(mArtistListFragment.getPresenter(), mArtistListPresenter);
     }
 
     @Test

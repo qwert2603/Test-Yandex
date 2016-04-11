@@ -44,11 +44,6 @@ public class DataManagerTest {
         Mockito.when(mArtistService.getArtistList()).thenReturn(observable);
     }
 
-    /*@Test
-    public void testEqualArtistServices() {
-        Assert.assertEquals(mArtistService, mDataManager.mArtistService);
-    }*/
-
     @Test
     public void testGetArtistList() {
         Observable.zip(
@@ -84,6 +79,8 @@ public class DataManagerTest {
                 Integer::equals
         ).subscribe(Assert::assertTrue);
 
+        // DataManager#.getArtistList() должен быть вызван только 1 раз,
+        // так как в DataManager реализовано кеширование.
         Mockito.verify(mArtistService, Mockito.times(1)).getArtistList();
     }
 
