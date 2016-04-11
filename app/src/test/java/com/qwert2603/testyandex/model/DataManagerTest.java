@@ -2,6 +2,8 @@ package com.qwert2603.testyandex.model;
 
 import com.qwert2603.testyandex.BuildConfig;
 import com.qwert2603.testyandex.TestApplication;
+import com.qwert2603.testyandex.TestConst;
+import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.di.TestComponent;
 import com.qwert2603.testyandex.model.entity.Artist;
 
@@ -9,8 +11,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,12 +36,18 @@ public class DataManagerTest {
         testComponent.inject(DataManagerTest.this);
 
         mDataManager = DataManager.get();
+
+        Observable<List<Artist>> observable = Observable.just(TestUtils.readJson(TestConst.ARTISTS_JSON, Artist[].class))
+                .flatMap(Observable::from)
+                .toList();
+
+        Mockito.when(mArtistService.getArtistList()).thenReturn(observable);
     }
 
-    @Test
+    /*@Test
     public void testEqualArtistServices() {
         Assert.assertEquals(mArtistService, mDataManager.mArtistService);
-    }
+    }*/
 
     @Test
     public void testGetArtistList() {
@@ -55,8 +66,6 @@ public class DataManagerTest {
                 Observable.just(22, 152),
                 Integer::equals
         ).subscribe(Assert::assertTrue);
-
-        //Mockito.verify(mArtistService).getArtistList();
     }
 
     @Test
@@ -75,7 +84,7 @@ public class DataManagerTest {
                 Integer::equals
         ).subscribe(Assert::assertTrue);
 
-        //Mockito.verify(mArtistService).getArtistList();
+        Mockito.verify(mArtistService, Mockito.times(1)).getArtistList();
     }
 
 }
