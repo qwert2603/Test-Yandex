@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ViewTestModule.class})
+@Component(modules = {AppTestModule.class, ModelTestModule.class, PresenterTestModule.class, ViewTestModule.class})
 public interface TestComponent extends AppComponent {
 
     void inject(ArtistListFragmentTest artistListFragmentTest);

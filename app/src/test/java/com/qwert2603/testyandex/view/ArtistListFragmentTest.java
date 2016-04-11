@@ -1,14 +1,12 @@
 package com.qwert2603.testyandex.view;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
 import com.qwert2603.testyandex.BuildConfig;
 import com.qwert2603.testyandex.R;
 import com.qwert2603.testyandex.TestApplication;
 import com.qwert2603.testyandex.artist_list.ArtistListActivity;
 import com.qwert2603.testyandex.artist_list.ArtistListFragment;
 import com.qwert2603.testyandex.artist_list.ArtistListPresenter;
+import com.qwert2603.testyandex.di.TestComponent;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,31 +32,36 @@ public class ArtistListFragmentTest {
 
     @Before
     public void setUp() {
-        TestApplication.getTestComponent().inject(ArtistListFragmentTest.this);
+        TestComponent testComponent = (TestComponent) TestApplication.getAppComponent();
+        testComponent.inject(ArtistListFragmentTest.this);
 
         mArtistListActivity = Robolectric.setupActivity(ArtistListActivity.class);
         mArtistListFragment = (ArtistListFragment) mArtistListActivity.getFragmentManager()
                 .findFragmentById(R.id.fragment_container);
-        mArtistListFragment.setAppComponent(TestApplication.getTestComponent());
+        mArtistListFragment.setAppComponent(testComponent);
+    }
 
-        mArtistListFragment.onCreate(null);
-
+    @Test
+    public void testEqualPresenters() {
         assertEquals(mArtistListFragment.getPresenter(), mArtistListPresenter);
     }
 
     @Test
     public void testBindView() {
-        mArtistListFragment.onCreateView(LayoutInflater.from(mArtistListActivity),
-                (ViewGroup) mArtistListActivity.findViewById(R.id.fragment_container), null);
         verify(mArtistListPresenter).bindView(mArtistListFragment);
+        verify(mArtistListPresenter).onViewReady();
     }
 
     @Test
-    public void testOnViewReady() {
-        mArtistListFragment.onResume();
-        verify(mArtistListPresenter).onViewReady();
-        verify(mArtistListPresenter).onUpdateView(mArtistListFragment);
+    public void testViewNotReady() {
+        mArtistListFragment.onDestroy();
+        verify(mArtistListPresenter).unbindView();
     }
 
+    @Test
+    public void testUnbindView() {
+        mArtistListFragment.onPause();
+        verify(mArtistListPresenter).onViewNotReady();
+    }
 
 }
