@@ -1,6 +1,5 @@
 package com.qwert2603.testyandex.artist_details;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -9,8 +8,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BasePresenter;
-import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.model.DataManager;
+import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.LogUtils;
 
 import javax.inject.Inject;
@@ -97,17 +96,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
             return;
         }
 
-        view.showCover(null);
-        ImageLoader.getInstance().loadImage(getCoverUrl(), new ImageLoaderCompletedListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                ArtistDetailsView artistDetailsView = getView();
-                if (artistDetailsView != null) {
-                    artistDetailsView.showCover(loadedImage);
-                }
-            }
-        });
-
+        ImageLoader.getInstance().displayImage(getCoverUrl(), view.getCoverImageView());
         view.showName(artist.getName());
         String genresList = artist.getGenres().toString();
         view.showGenres(genresList.substring(1, genresList.length() - 1));

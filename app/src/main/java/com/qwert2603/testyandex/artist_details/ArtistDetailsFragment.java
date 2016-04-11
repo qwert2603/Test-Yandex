@@ -1,7 +1,6 @@
 package com.qwert2603.testyandex.artist_details;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -112,8 +111,8 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
     }
 
     @Override
-    public void showCover(Bitmap cover) {
-        mCover.setImageBitmap(cover);
+    public ImageView getCoverImageView() {
+        return mCover;
     }
 
     @Override

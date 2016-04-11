@@ -1,6 +1,5 @@
 package com.qwert2603.testyandex.artist_list;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +60,14 @@ public class ArtistListAdapter
         @Inject
         ArtistDetailsPresenter mArtistDetailsPresenter;
 
+        public ArtistDetailsViewHolder(View itemView) {
+            super(itemView);
+            TestYandexApplication.getAppComponent().inject(ArtistDetailsViewHolder.this);
+            // в элементе списка отображается маленькая версия изображения-обложки исполнителя.
+            mArtistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.SMALL);
+            ButterKnife.bind(ArtistDetailsViewHolder.this, itemView);
+        }
+
         @Override
         protected ArtistDetailsPresenter getPresenter() {
             return mArtistDetailsPresenter;
@@ -71,17 +78,15 @@ public class ArtistListAdapter
             mArtistDetailsPresenter.setArtist(artist);
         }
 
-        public ArtistDetailsViewHolder(View itemView) {
-            super(itemView);
-            TestYandexApplication.getAppComponent().inject(ArtistDetailsViewHolder.this);
-            // в элементе списка отображается маленькая версия изображения-обложки исполнителя.
-            mArtistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.SMALL);
-            ButterKnife.bind(ArtistDetailsViewHolder.this, itemView);
+        @Override
+        public void unbindPresenter() {
+            mCover.setImageBitmap(null);
+            super.unbindPresenter();
         }
 
         @Override
-        public void showCover(Bitmap cover) {
-            mCover.setImageBitmap(cover);
+        public ImageView getCoverImageView() {
+            return mCover;
         }
 
         @Override
@@ -108,6 +113,7 @@ public class ArtistListAdapter
 
         @Override
         public void showLoading() {
+            mCover.setImageBitmap(null);
             mName.setText(R.string.loading);
             mGenres.setText(R.string.loading);
             mTracksAndAlbums.setText(R.string.loading);

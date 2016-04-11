@@ -1,6 +1,6 @@
 package com.qwert2603.testyandex.artist_details;
 
-import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 import com.qwert2603.testyandex.base.BaseView;
 
@@ -10,11 +10,11 @@ import com.qwert2603.testyandex.base.BaseView;
 public interface ArtistDetailsView extends BaseView {
 
     /**
-     * Отобразить изображение/обложку.
+     * Получить ImageView, отобрадающий обложку.
      *
-     * @param cover изображение/обложка.
+     * @return ImageView, отобрадающий обложку.
      */
-    void showCover(Bitmap cover);
+    ImageView getCoverImageView();
 
     /**
      * Отобразить название.
@@ -52,12 +52,14 @@ public interface ArtistDetailsView extends BaseView {
 
     /**
      * Перейти по адресу.
+     *
      * @param url адрес
      */
     void moveOnAddress(String url);
 
     /**
      * Настроить видимость плавающей кнопки.
+     *
      * @param visibility видимость.
      */
     void setFabVisibility(boolean visibility);
