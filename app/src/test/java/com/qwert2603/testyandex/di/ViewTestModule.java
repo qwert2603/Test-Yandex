@@ -12,7 +12,6 @@ import static org.mockito.Mockito.mock;
 
 @Module
 public class ViewTestModule {
-
     @Provides
     @Singleton
     ArtistListPresenter provideArtistListPresenter() {
@@ -24,5 +23,4 @@ public class ViewTestModule {
     ArtistDetailsPresenter provideArtistDetailsPresenter() {
         return mock(ArtistDetailsPresenter.class);
     }
-
 }

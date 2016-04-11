@@ -12,6 +12,9 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qwert2603.testyandex.di.AppComponent;
 import com.qwert2603.testyandex.di.AppModule;
 import com.qwert2603.testyandex.di.DaggerAppComponent;
+import com.qwert2603.testyandex.di.ModelModule;
+import com.qwert2603.testyandex.di.PresenterModule;
+import com.qwert2603.testyandex.di.ViewModule;
 import com.qwert2603.testyandex.util.InternalStorageViewer;
 
 import java.io.File;
@@ -28,7 +31,12 @@ public class TestYandexApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        sAppComponent = buildComponent();
+        sAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(TestYandexApplication.this))
+                .modelModule(new ModelModule())
+                .presenterModule(new PresenterModule())
+                .viewModule(new ViewModule())
+                .build();
 
         InternalStorageViewer.print(TestYandexApplication.this);
 
@@ -52,12 +60,6 @@ public class TestYandexApplication extends Application {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build();
         ImageLoader.getInstance().init(config);
-    }
-
-    protected AppComponent buildComponent() {
-        return DaggerAppComponent.builder()
-                .appModule(new AppModule(TestYandexApplication.this))
-                .build();
     }
 
 }

@@ -3,21 +3,27 @@ package com.qwert2603.testyandex.view;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.qwert2603.testyandex.BuildConfig;
 import com.qwert2603.testyandex.R;
 import com.qwert2603.testyandex.TestApplication;
 import com.qwert2603.testyandex.artist_list.ArtistListActivity;
 import com.qwert2603.testyandex.artist_list.ArtistListFragment;
 import com.qwert2603.testyandex.artist_list.ArtistListPresenter;
-import com.qwert2603.testyandex.di.TestComponent;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
 import javax.inject.Inject;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
 public class ArtistListFragmentTest {
 
     @Inject
@@ -27,13 +33,17 @@ public class ArtistListFragmentTest {
     ArtistListFragment mArtistListFragment;
 
     @Before
-    void setUp() {
-        ((TestComponent) TestApplication.getAppComponent()).inject(ArtistListFragmentTest.this);
+    public void setUp() {
+        TestApplication.getTestComponent().inject(ArtistListFragmentTest.this);
 
         mArtistListActivity = Robolectric.setupActivity(ArtistListActivity.class);
-        mArtistListFragment = ArtistListFragment.newInstance();
+        mArtistListFragment = (ArtistListFragment) mArtistListActivity.getFragmentManager()
+                .findFragmentById(R.id.fragment_container);
+        mArtistListFragment.setAppComponent(TestApplication.getTestComponent());
 
         mArtistListFragment.onCreate(null);
+
+        assertEquals(mArtistListFragment.getPresenter(), mArtistListPresenter);
     }
 
     @Test
