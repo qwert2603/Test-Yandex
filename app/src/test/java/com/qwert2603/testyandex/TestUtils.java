@@ -1,9 +1,12 @@
 package com.qwert2603.testyandex;
 
 import com.google.gson.Gson;
+import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TestUtils {
@@ -12,6 +15,10 @@ public class TestUtils {
 
     public static void log(String log) {
         System.out.println(log);
+    }
+
+    public static List<Artist> getTestArtistList() {
+        return Arrays.asList(TestUtils.readJson(TestConst.ARTISTS_JSON, Artist[].class));
     }
 
     public static <T> T readJson(String fileName, Class<T> inClass) {

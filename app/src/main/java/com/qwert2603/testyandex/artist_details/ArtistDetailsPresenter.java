@@ -96,7 +96,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
         view.showName(artist.getName());
         String genresList = artist.getGenres().toString();
         view.showGenres(genresList.substring(1, genresList.length() - 1));
-        view.showTracksAndAlbums(artist.getAlbums(), artist.getTracks());
+        view.showTracksAndAlbums(artist.getTracks(), artist.getAlbums());
         view.showDescription(artist.getDescription());
         view.setFabVisibility(artist.getLink() != null);
     }
