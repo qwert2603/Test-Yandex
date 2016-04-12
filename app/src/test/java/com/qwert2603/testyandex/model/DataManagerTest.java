@@ -32,7 +32,7 @@ import rx.Observable;
 public class DataManagerTest {
 
     @Inject
-    ArtistService mArtistService;
+    ArtistService mArtistServiceMock;
 
     private DataManager mDataManager;
 
@@ -47,7 +47,7 @@ public class DataManagerTest {
                 .flatMap(Observable::from)
                 .toList();
 
-        Mockito.when(mArtistService.getArtistList()).thenReturn(observable);
+        Mockito.when(mArtistServiceMock.getArtistList()).thenReturn(observable);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class DataManagerTest {
 
         // DataManager#.getArtistList() должен быть вызван только 1 раз, несмотря на 2 вызова #getArtistById()
         // так как в DataManager реализовано кеширование.
-        Mockito.verify(mArtistService, Mockito.times(1)).getArtistList();
+        Mockito.verify(mArtistServiceMock, Mockito.times(1)).getArtistList();
     }
 
 }

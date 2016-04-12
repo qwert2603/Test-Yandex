@@ -50,7 +50,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
 
     public ArtistListPresenter() {
         TestYandexApplication.getAppComponent().inject(ArtistListPresenter.this);
-        loadArtistList(false);
+        loadArtistList(true);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
             // список нельзя обновлять пока он не будет загружен.
             // поэтому отключаем RefreshLayout.
             view.setRefreshingConfig(false, false);
-            if (mSubscription == null) {
+            if (mSubscription.isUnsubscribed()) {
                 // если mSubscription == null, то произшла ошибка.
                 if (mIsNoInternet) {
                     // ошибка связанная с отсутствием интернета.
@@ -184,7 +184,6 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
                             if (mSubscription != null) {
                                 // в случае ошибки отписывается от подписки на получение списка исполнителей.
                                 mSubscription.unsubscribe();
-                                mSubscription = null;
                             }
                             setModel(null);
                             LogUtils.e(throwable);

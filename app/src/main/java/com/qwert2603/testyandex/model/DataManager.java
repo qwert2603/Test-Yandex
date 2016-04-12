@@ -22,7 +22,7 @@ import rx.Scheduler;
  * Для получения объекта класса DataManager используется {@link #get()}.
  * Класс позволяет загружать список исполнителей и кешировать его в оперативной памяти.
  */
-public final class DataManager {
+public class DataManager {
 
     private static DataManager sDataManager;
 

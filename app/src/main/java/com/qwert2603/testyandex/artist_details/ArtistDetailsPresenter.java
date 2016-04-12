@@ -1,11 +1,8 @@
 package com.qwert2603.testyandex.artist_details;
 
 import android.support.annotation.NonNull;
-import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BasePresenter;
 import com.qwert2603.testyandex.model.DataManager;
@@ -61,7 +58,6 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
                             if (mSubscription != null) {
                                 // в случае ошибки отписывается от подписки на получение списка исполнителей.
                                 mSubscription.unsubscribe();
-                                mSubscription = null;
                             }
                             LogUtils.e(throwable);
                         }
@@ -141,17 +137,4 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
         }
     }
 
-    private static abstract class ImageLoaderCompletedListener implements ImageLoadingListener {
-        @Override
-        public void onLoadingStarted(String imageUri, View view) {
-        }
-
-        @Override
-        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-        }
-
-        @Override
-        public void onLoadingCancelled(String imageUri, View view) {
-        }
-    }
 }

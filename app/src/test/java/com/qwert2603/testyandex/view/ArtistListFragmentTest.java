@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
 public class ArtistListFragmentTest {
 
     @Inject
-    ArtistListPresenter mArtistListPresenter;
+    ArtistListPresenter mArtistListPresenterMock;
 
     private ArtistListFragment mArtistListFragment;
 
@@ -48,20 +48,20 @@ public class ArtistListFragmentTest {
 
     @Test
     public void testBindView() {
-        verify(mArtistListPresenter).bindView(mArtistListFragment);
-        verify(mArtistListPresenter).onViewReady();
+        verify(mArtistListPresenterMock).bindView(mArtistListFragment);
+        verify(mArtistListPresenterMock).onViewReady();
     }
 
     @Test
     public void testViewNotReady() {
         mArtistListFragment.onDestroy();
-        verify(mArtistListPresenter).unbindView();
+        verify(mArtistListPresenterMock).unbindView();
     }
 
     @Test
     public void testUnbindView() {
         mArtistListFragment.onPause();
-        verify(mArtistListPresenter).onViewNotReady();
+        verify(mArtistListPresenterMock).onViewNotReady();
     }
 
 }

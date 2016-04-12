@@ -5,7 +5,6 @@ import com.qwert2603.testyandex.BuildConfig;
 import com.qwert2603.testyandex.TestApplication;
 import com.qwert2603.testyandex.TestConst;
 import com.qwert2603.testyandex.TestUtils;
-import com.qwert2603.testyandex.di.TestComponent;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.mockwebserver.Dispatcher;
@@ -41,9 +40,6 @@ public class ArtistServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        TestComponent testComponent = (TestComponent) TestApplication.getAppComponent();
-        testComponent.inject(ArtistServiceTest.this);
-
         mMockWebServer = new MockWebServer();
         mMockWebServer.start();
         mMockWebServer.setDispatcher(new Dispatcher() {
