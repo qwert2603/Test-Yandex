@@ -23,7 +23,6 @@ import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsActivity;
 import com.qwert2603.testyandex.base.BaseActivity;
 import com.qwert2603.testyandex.base.BaseFragment;
-import com.qwert2603.testyandex.di.AppComponent;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import java.util.List;
@@ -70,23 +69,14 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     @Inject
     ArtistListPresenter mArtistListPresenter;
 
-    private AppComponent mAppComponent;
-
     @Override
     public ArtistListPresenter getPresenter() {
         return mArtistListPresenter;
     }
 
-    public void setAppComponent(AppComponent appComponent) {
-        mAppComponent = appComponent;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if (mAppComponent == null) {
-            mAppComponent = TestYandexApplication.getAppComponent();
-        }
-        mAppComponent.inject(ArtistListFragment.this);
+        TestYandexApplication.getAppComponent().inject(ArtistListFragment.this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }

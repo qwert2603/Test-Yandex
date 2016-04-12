@@ -16,7 +16,7 @@ public class PresenterModule {
     @Provides
     @Singleton
     DataManager provideDataManager() {
-        return DataManager.get();
+        return new DataManager();
     }
 
 }

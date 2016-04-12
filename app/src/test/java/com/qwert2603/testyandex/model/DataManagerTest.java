@@ -1,19 +1,14 @@
 package com.qwert2603.testyandex.model;
 
-import com.qwert2603.testyandex.BuildConfig;
-import com.qwert2603.testyandex.TestApplication;
+import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.TestConst;
 import com.qwert2603.testyandex.TestUtils;
-import com.qwert2603.testyandex.di.TestComponent;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.List;
 
@@ -27,9 +22,7 @@ import rx.Observable;
  * {@link DataManager#getArtistList(boolean)},
  * {@link DataManager#getArtistById(int, boolean)}.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
-public class DataManagerTest {
+public class DataManagerTest extends BaseTest {
 
     @Inject
     ArtistService mArtistServiceMock;
@@ -38,10 +31,9 @@ public class DataManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        TestComponent testComponent = (TestComponent) TestApplication.getAppComponent();
-        testComponent.inject(DataManagerTest.this);
+        getTestComponent().inject(DataManagerTest.this);
 
-        mDataManager = DataManager.get();
+        mDataManager = new DataManager();
 
         Observable<List<Artist>> observable = Observable.just(TestUtils.readJson(TestConst.ARTISTS_JSON, Artist[].class))
                 .flatMap(Observable::from)

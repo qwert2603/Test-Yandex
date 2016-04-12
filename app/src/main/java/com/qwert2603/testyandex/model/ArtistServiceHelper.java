@@ -12,25 +12,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class ArtistServiceHelper {
-
-    private static ArtistServiceHelper sArtistServiceHelper;
-
-    public static ArtistServiceHelper get() {
-        if (sArtistServiceHelper == null) {
-            synchronized (ArtistServiceHelper.class) {
-                if (sArtistServiceHelper == null) {
-                    sArtistServiceHelper = new ArtistServiceHelper();
-                }
-            }
-        }
-        return sArtistServiceHelper;
-    }
+public class ArtistServiceHelper {
 
     @Inject
     Context mAppContext;
 
-    private ArtistServiceHelper() {
+    public ArtistServiceHelper() {
         TestYandexApplication.getAppComponent().inject(ArtistServiceHelper.this);
     }
 

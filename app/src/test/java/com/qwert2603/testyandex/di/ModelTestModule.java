@@ -2,6 +2,7 @@ package com.qwert2603.testyandex.di;
 
 import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.model.ArtistService;
+import com.qwert2603.testyandex.model.InternetHelper;
 
 import org.mockito.Mockito;
 
@@ -34,6 +35,12 @@ public class ModelTestModule {
     @Named(Const.IO_THREAD)
     Scheduler provideSchedulerIO() {
         return Schedulers.immediate();
+    }
+
+    @Provides
+    @Singleton
+    InternetHelper provideInternetHelper() {
+        return Mockito.mock(InternetHelper.class);
     }
 
 }

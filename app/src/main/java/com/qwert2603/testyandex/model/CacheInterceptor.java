@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.qwert2603.testyandex.TestYandexApplication;
-import com.qwert2603.testyandex.util.InternetUtils;
 
 import java.io.IOException;
 
@@ -25,6 +24,9 @@ public class CacheInterceptor implements Interceptor {
     @Inject
     Context mAppContext;
 
+    @Inject
+    InternetHelper mInternetHelper;
+
     public CacheInterceptor() {
         TestYandexApplication.getAppComponent().inject(CacheInterceptor.this);
     }
@@ -33,7 +35,7 @@ public class CacheInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
         Request.Builder request = originalRequest.newBuilder();
-        if (InternetUtils.isInternetConnected(mAppContext)) {
+        if (mInternetHelper.isInternetConnected()) {
             // если есть подключение к интернету, обновляем данные.
             request.cacheControl(CacheControl.FORCE_NETWORK);
         }
@@ -49,7 +51,7 @@ public class CacheInterceptor implements Interceptor {
     private String cacheControl() {
         String cacheHeaderValue;
         // выбираем значение http заголовка "Cache-Control" в зависимости от наличия интернета.
-        if (InternetUtils.isInternetConnected(mAppContext)) {
+        if (mInternetHelper.isInternetConnected()) {
             cacheHeaderValue = "public, max-age=2419200";   // 4 недели
         } else {
             cacheHeaderValue = "public, only-if-cached, max-stale=2419200";   // 4 недели

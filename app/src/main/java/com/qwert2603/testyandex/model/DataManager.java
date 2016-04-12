@@ -5,7 +5,6 @@ import android.content.Context;
 import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.model.entity.Artist;
-import com.qwert2603.testyandex.util.InternetUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,29 +18,12 @@ import rx.Scheduler;
 
 /**
  * Главный класс для работы с данными.
- * Для получения объекта класса DataManager используется {@link #get()}.
  * Класс позволяет загружать список исполнителей и кешировать его в оперативной памяти.
  */
 public class DataManager {
 
-    private static DataManager sDataManager;
-
-    private DataManager() {
+    public DataManager() {
         TestYandexApplication.getAppComponent().inject(DataManager.this);
-    }
-
-    /**
-     * @return объект-синглтон класса DataManager.
-     */
-    public static DataManager get() {
-            if (sDataManager == null) {
-                synchronized (DataManager.class) {
-                    if (sDataManager == null) {
-                        sDataManager = new DataManager();
-                    }
-                }
-        }
-        return sDataManager;
     }
 
     @Inject
@@ -57,6 +39,9 @@ public class DataManager {
     @Inject
     @Named(Const.IO_THREAD)
     Scheduler mIoScheduler;
+
+    @Inject
+    InternetHelper mInternetHelper;
 
     /**
      * Кешированная версия списка исполнителей.
@@ -124,7 +109,7 @@ public class DataManager {
      * @return есть ли подключение к интернету.
      */
     public boolean isInternetConnected() {
-        return InternetUtils.isInternetConnected(mAppContext);
+        return mInternetHelper.isInternetConnected();
     }
 
     /**

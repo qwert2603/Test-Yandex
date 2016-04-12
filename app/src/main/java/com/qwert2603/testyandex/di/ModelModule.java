@@ -3,6 +3,7 @@ package com.qwert2603.testyandex.di;
 import com.qwert2603.testyandex.Const;
 import com.qwert2603.testyandex.model.ArtistService;
 import com.qwert2603.testyandex.model.ArtistServiceHelper;
+import com.qwert2603.testyandex.model.InternetHelper;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -22,7 +23,7 @@ public class ModelModule {
     @Provides
     @Singleton
     ArtistService provideArtistService() {
-        return ArtistServiceHelper.get().getArtistService(Const.BASE_URL);
+        return new ArtistServiceHelper().getArtistService(Const.BASE_URL);
     }
 
     @Provides
@@ -38,6 +39,12 @@ public class ModelModule {
     @Named(Const.IO_THREAD)
     Scheduler provideSchedulerIO() {
         return Schedulers.io();
+    }
+
+    @Provides
+    @Singleton
+    InternetHelper provideTestYandexApplication() {
+        return new InternetHelper();
     }
 
 }

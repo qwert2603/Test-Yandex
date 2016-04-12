@@ -132,11 +132,12 @@ public class ArtistListPresenter extends BasePresenter<List<Artist>, ArtistListV
 
     /**
      * Действие по случаю изменения поискового запроса.
+     * Поиск не зависит от регистра.
      *
      * @param query поисковый звпрос.
      */
     public void onSearchQueryChanged(String query) {
-        mQuery = query;
+        mQuery = query.toLowerCase();
         doSearch();
         updateView();
     }

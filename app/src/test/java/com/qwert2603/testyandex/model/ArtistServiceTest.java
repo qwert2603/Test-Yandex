@@ -1,8 +1,7 @@
 package com.qwert2603.testyandex.model;
 
 
-import com.qwert2603.testyandex.BuildConfig;
-import com.qwert2603.testyandex.TestApplication;
+import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.TestConst;
 import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.model.entity.Artist;
@@ -16,9 +15,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,9 +26,7 @@ import rx.Observable;
  * Тестируется корректность метода {@link ArtistService#getArtistList()}.
  * Для имитации работы с сетью используется {@link MockWebServer}.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19, application = TestApplication.class)
-public class ArtistServiceTest {
+public class ArtistServiceTest extends BaseTest {
 
     private MockWebServer mMockWebServer;
 
@@ -53,7 +47,7 @@ public class ArtistServiceTest {
         });
 
         HttpUrl baseUrl = mMockWebServer.url("/");
-        ArtistService artistService = ArtistServiceHelper.get().getArtistService(baseUrl.toString());
+        ArtistService artistService = new ArtistServiceHelper().getArtistService(baseUrl.toString());
 
         mArtistObservable = artistService.getArtistList().flatMap(Observable::from).cache();
     }
