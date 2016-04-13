@@ -82,6 +82,8 @@ public class ArtistDetailsPresenterTest extends BaseTest {
     public void testOnFabClicked() {
         Artist toveLoArtist = TestUtils.getTestArtistList().get(0);
         ArtistDetailsPresenter artistDetailsPresenter = new ArtistDetailsPresenter();
+        artistDetailsPresenter.setArtist(toveLoArtist);
+        artistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.BIG);
         artistDetailsPresenter.bindView(mArtistDetailsViewMock);
         artistDetailsPresenter.onViewReady();
 

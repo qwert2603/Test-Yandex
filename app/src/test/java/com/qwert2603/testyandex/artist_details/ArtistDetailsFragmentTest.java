@@ -1,5 +1,7 @@
 package com.qwert2603.testyandex.artist_details;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 
 import com.qwert2603.testyandex.BaseTest;
@@ -12,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 
 /**
  * Тесты для {@link ArtistDetailsFragment}.
@@ -91,15 +94,14 @@ public class ArtistDetailsFragmentTest extends BaseTest {
         Assert.assertEquals(mArtistDetailsFragment.mFab.getVisibility(), View.INVISIBLE);
     }
 
-    // FIXME: 13.04.2016
-    /*@Test
+    @Test
     public void testMoveToAddress() {
         mArtistDetailsFragment.moveToAddress(mArtist.getLink());
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getLink()));
+        Intent expectedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getLink()));
         Intent actualIntent = Shadows.shadowOf(mArtistDetailsActivity).getNextStartedActivity();
 
-        Assert.assertEquals(intent, actualIntent);
-    }*/
+        Assert.assertEquals(expectedIntent, actualIntent);
+    }
 
 }

@@ -1,14 +1,18 @@
 package com.qwert2603.testyandex.artist_list;
 
+import android.content.Intent;
+
 import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.R;
 import com.qwert2603.testyandex.TestUtils;
+import com.qwert2603.testyandex.artist_details.ArtistDetailsActivity;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 
 import java.util.List;
 
@@ -88,16 +92,16 @@ public class ArtistListFragmentTest extends BaseTest {
         Assert.assertTrue(! mArtistListFragment.mRefreshLayout.isRefreshing());
     }
 
-    // FIXME: 13.04.2016
-    /*@Test
+    @Test
     public void testMoveToArtistDetails() {
         mArtistListFragment.moveToArtistDetails(2915);
 
-        Intent intent = new Intent(mArtistListActivity, ArtistDetailsActivity.class);
+        Intent expectedIntent = new Intent(mArtistListActivity, ArtistDetailsActivity.class);
+        expectedIntent.putExtra(ArtistDetailsActivity.EXTRA_ARTIST_ID, 2915);
         Intent actualIntent = Shadows.shadowOf(mArtistListActivity).getNextStartedActivity();
 
-        Assert.assertEquals(intent, actualIntent);
-    }*/
+        Assert.assertEquals(expectedIntent, actualIntent);
+    }
 
     private int getViewAnimatorDisplayedChild() {
         return mArtistListFragment.mViewAnimator.getDisplayedChild();
