@@ -8,6 +8,7 @@ import com.qwert2603.testyandex.base.BasePresenter;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.LogUtils;
+import com.qwert2603.testyandex.util.TextUtils;
 
 import javax.inject.Inject;
 
@@ -94,8 +95,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
 
         ImageLoader.getInstance().displayImage(getCoverUrl(), view.getCoverImageView());
         view.showName(artist.getName());
-        String genresList = artist.getGenres().toString();
-        view.showGenres(genresList.substring(1, genresList.length() - 1));
+        view.showGenres(TextUtils.getGenresString(artist.getGenres()));
         view.showTracksAndAlbums(artist.getTracks(), artist.getAlbums());
         view.showDescription(artist.getDescription());
         view.setFabVisibility(artist.getLink() != null);
@@ -115,7 +115,7 @@ public class ArtistDetailsPresenter extends BasePresenter<Artist, ArtistDetailsV
      */
     public void onFabClicked() {
         if (getModel() != null) {
-            getView().moveOnAddress(getModel().getLink());
+            getView().moveToAddress(getModel().getLink());
         }
     }
 

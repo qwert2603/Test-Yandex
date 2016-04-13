@@ -18,8 +18,7 @@ import com.qwert2603.testyandex.R;
 import com.qwert2603.testyandex.TestYandexApplication;
 import com.qwert2603.testyandex.base.BaseActivity;
 import com.qwert2603.testyandex.base.BaseFragment;
-
-import java.util.Locale;
+import com.qwert2603.testyandex.util.TextUtils;
 
 import javax.inject.Inject;
 
@@ -130,9 +129,7 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
 
     @Override
     public void showTracksAndAlbums(int tracks, int albums) {
-        String t = getResources().getQuantityString(R.plurals.tracks, tracks);
-        String a = getResources().getQuantityString(R.plurals.albums, albums);
-        mTracksAndAlbums.setText(String.format(Locale.ROOT, "%d %s, %d %s", tracks, t, albums, a));
+        mTracksAndAlbums.setText(TextUtils.getTracksAndAlbumsString(getActivity(), tracks, albums));
     }
 
     @Override
@@ -148,7 +145,7 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
     }
 
     @Override
-    public void moveOnAddress(String url) {
+    public void moveToAddress(String url) {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 

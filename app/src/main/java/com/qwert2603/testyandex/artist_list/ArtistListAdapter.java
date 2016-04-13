@@ -120,7 +120,7 @@ public class ArtistListAdapter
         }
 
         @Override
-        public void moveOnAddress(String url) {
+        public void moveToAddress(String url) {
             // из элемента списка нельзя переходить по адресу связанному с исплнителем.
         }
 

@@ -44,12 +44,12 @@ public class ArtistListFragment extends BaseFragment<ArtistListPresenter> implem
     /**
      * Позиции дочерних элементов ViewAnimator'a.
      */
-    private static final int POSITION_REFRESH_LAYOUT = 0;
-    private static final int POSITION_LOADING_TEXT_VIEW = 1;
-    private static final int POSITION_ERROR_TEXT_VIEW = 2;
-    private static final int POSITION_EMPTY_TEXT_VIEW = 3;
-    private static final int POSITION_NO_INTERNET_TEXT_VIEW = 4;
-    private static final int POSITION_NOTHING_FOUND = 5;
+    public static final int POSITION_REFRESH_LAYOUT = 0;
+    public static final int POSITION_LOADING_TEXT_VIEW = 1;
+    public static final int POSITION_ERROR_TEXT_VIEW = 2;
+    public static final int POSITION_EMPTY_TEXT_VIEW = 3;
+    public static final int POSITION_NO_INTERNET_TEXT_VIEW = 4;
+    public static final int POSITION_NOTHING_FOUND = 5;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;

@@ -1,13 +1,12 @@
-package com.qwert2603.testyandex.presenter;
+package com.qwert2603.testyandex.artist_details;
 
 import android.widget.ImageView;
 
 import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.TestUtils;
-import com.qwert2603.testyandex.artist_details.ArtistDetailsPresenter;
-import com.qwert2603.testyandex.artist_details.ArtistDetailsView;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.model.entity.Artist;
+import com.qwert2603.testyandex.util.TextUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,10 +55,6 @@ public class ArtistDetailsPresenterTest extends BaseTest {
         Mockito.verify(mArtistDetailsViewMock).showTracksAndAlbums(toveLoArtist.getTracks(), toveLoArtist.getAlbums());
         Mockito.verify(mArtistDetailsViewMock).getCoverImageView();
         Mockito.verify(mArtistDetailsViewMock).setFabVisibility(toveLoArtist.getLink() != null);
-
-        artistDetailsPresenter.onFabClicked();
-
-        Mockito.verify(mArtistDetailsViewMock).moveOnAddress(toveLoArtist.getLink());
     }
 
     @Test
@@ -75,13 +70,24 @@ public class ArtistDetailsPresenterTest extends BaseTest {
         artistDetailsPresenter.bindView(mArtistDetailsViewMock);
         artistDetailsPresenter.onViewReady();
 
-        String genresList = neYoArtist.getGenres().toString();
         Mockito.verify(mArtistDetailsViewMock).showName(neYoArtist.getName());
         Mockito.verify(mArtistDetailsViewMock).showDescription(neYoArtist.getDescription());
-        Mockito.verify(mArtistDetailsViewMock).showGenres(genresList.substring(1, genresList.length() - 1));
+        Mockito.verify(mArtistDetailsViewMock).showGenres(TextUtils.getGenresString(neYoArtist.getGenres()));
         Mockito.verify(mArtistDetailsViewMock).showTracksAndAlbums(neYoArtist.getTracks(), neYoArtist.getAlbums());
         Mockito.verify(mArtistDetailsViewMock).getCoverImageView();
         Mockito.verify(mArtistDetailsViewMock).setFabVisibility(neYoArtist.getLink() != null);
+    }
+
+    @Test
+    public void testOnFabClicked() {
+        Artist toveLoArtist = TestUtils.getTestArtistList().get(0);
+        ArtistDetailsPresenter artistDetailsPresenter = new ArtistDetailsPresenter();
+        artistDetailsPresenter.bindView(mArtistDetailsViewMock);
+        artistDetailsPresenter.onViewReady();
+
+        artistDetailsPresenter.onFabClicked();
+
+        Mockito.verify(mArtistDetailsViewMock).moveToAddress(toveLoArtist.getLink());
     }
 
 }

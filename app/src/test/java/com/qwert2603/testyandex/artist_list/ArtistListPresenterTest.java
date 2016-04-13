@@ -1,8 +1,6 @@
-package com.qwert2603.testyandex.presenter;
+package com.qwert2603.testyandex.artist_list;
 
 import com.qwert2603.testyandex.BaseTest;
-import com.qwert2603.testyandex.artist_list.ArtistListPresenter;
-import com.qwert2603.testyandex.artist_list.ArtistListView;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.model.entity.Artist;
 
@@ -169,9 +167,10 @@ public class ArtistListPresenterTest extends BaseTest {
         artistListPresenter.bindView(mArtistListViewMock);
         artistListPresenter.onViewReady();
 
-        artistListPresenter.onArtistAtPositionClicked(1);
+        int clickedPosition = 1;
+        artistListPresenter.onArtistAtPositionClicked(clickedPosition);
 
-        Mockito.verify(mArtistListViewMock, Mockito.times(1)).moveToArtistDetails(2915);
+        Mockito.verify(mArtistListViewMock, Mockito.times(1)).moveToArtistDetails(mArtistList.get(clickedPosition).getId());
     }
 
     @Test

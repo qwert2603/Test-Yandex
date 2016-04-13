@@ -2,9 +2,10 @@ package com.qwert2603.testyandex.di;
 
 import com.qwert2603.testyandex.model.ArtistServiceTest;
 import com.qwert2603.testyandex.model.DataManagerTest;
-import com.qwert2603.testyandex.presenter.ArtistDetailsPresenterTest;
-import com.qwert2603.testyandex.presenter.ArtistListPresenterTest;
+import com.qwert2603.testyandex.artist_details.ArtistDetailsPresenterTest;
+import com.qwert2603.testyandex.artist_list.ArtistListPresenterTest;
 import com.qwert2603.testyandex.base.BaseFragmentTest;
+import com.qwert2603.testyandex.artist_list.ArtistListFragmentTest;
 
 import javax.inject.Singleton;
 
@@ -28,4 +29,6 @@ public interface TestComponent extends AppComponent {
     void inject(ArtistListPresenterTest artistListPresenterTest);
 
     void inject(ArtistDetailsPresenterTest artistDetailsPresenterTest);
+
+    void inject(ArtistListFragmentTest artistListFragmentTest);
 }

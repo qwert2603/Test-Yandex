@@ -62,7 +62,7 @@ public interface ArtistDetailsView extends BaseView {
      *
      * @param url адрес
      */
-    void moveOnAddress(String url);
+    void moveToAddress(String url);
 
     /**
      * Настроить видимость плавающей кнопки.
