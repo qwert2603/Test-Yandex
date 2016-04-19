@@ -13,6 +13,7 @@ import com.qwert2603.testyandex.util.TextUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
 
@@ -27,6 +28,7 @@ import org.robolectric.Shadows;
  * {@link ArtistDetailsFragment#setFabVisibility(boolean)}
  * {@link ArtistDetailsFragment#moveToAddress(String)}
  * {@link ArtistDetailsFragment#showLoading()}
+ * а также {@link android.view.View.OnClickListener} у {@link ArtistDetailsFragment#mFab}
  */
 public class ArtistDetailsFragmentTest extends BaseTest {
 
@@ -102,6 +104,12 @@ public class ArtistDetailsFragmentTest extends BaseTest {
         Intent actualIntent = Shadows.shadowOf(mArtistDetailsActivity).getNextStartedActivity();
 
         Assert.assertEquals(expectedIntent, actualIntent);
+    }
+
+    @Test
+    public void testOnFabClicked() {
+        mArtistDetailsFragment.mFab.performClick();
+        Mockito.verify(mArtistDetailsFragment.getPresenter(), Mockito.times(1)).onFabClicked();
     }
 
 }
