@@ -4,7 +4,6 @@ import android.content.Intent;
 
 import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.R;
-import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsActivity;
 import com.qwert2603.testyandex.model.entity.Artist;
 
@@ -15,6 +14,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Тесты для {@link ArtistListFragment}.
@@ -33,8 +34,13 @@ public class ArtistListFragmentTest extends BaseTest {
     private ArtistListActivity mArtistListActivity;
     private ArtistListFragment mArtistListFragment;
 
+    @Inject
+    List<Artist> mArtistList;
+
     @Before
     public void setUp() {
+        getTestComponent().inject(ArtistListFragmentTest.this);
+
         mArtistListActivity = Robolectric.setupActivity(ArtistListActivity.class);
         mArtistListFragment = (ArtistListFragment) mArtistListActivity.getFragmentManager()
                 .findFragmentById(R.id.fragment_container);
@@ -42,13 +48,11 @@ public class ArtistListFragmentTest extends BaseTest {
 
     @Test
     public void testShowList() {
-        List<Artist> artistList = TestUtils.getTestArtistList();
-
-        mArtistListFragment.showList(artistList);
+        mArtistListFragment.showList(mArtistList);
         Assert.assertEquals(getViewAnimatorDisplayedChild(), ArtistListFragment.POSITION_REFRESH_LAYOUT);
 
         ArtistListAdapter artistListAdapter = (ArtistListAdapter) mArtistListFragment.mRecyclerView.getAdapter();
-        Assert.assertTrue(artistListAdapter.isShowingList(artistList));
+        Assert.assertTrue(artistListAdapter.isShowingList(mArtistList));
     }
 
     @Test

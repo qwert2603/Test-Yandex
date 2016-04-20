@@ -1,7 +1,6 @@
 package com.qwert2603.testyandex.model;
 
 import com.qwert2603.testyandex.BaseTest;
-import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.model.entity.Artist;
 
 import org.junit.Assert;
@@ -26,6 +25,9 @@ public class DataManagerTest extends BaseTest {
     @Inject
     ArtistService mArtistServiceMock;
 
+    @Inject
+    List<Artist> mArtistList;
+
     private DataManager mDataManager;
 
     @Before
@@ -34,7 +36,7 @@ public class DataManagerTest extends BaseTest {
 
         mDataManager = new DataManager();
 
-        Observable<List<Artist>> observable = Observable.just(TestUtils.getTestArtistList());
+        Observable<List<Artist>> observable = Observable.just(mArtistList);
         Mockito.when(mArtistServiceMock.getArtistList()).thenReturn(observable);
     }
 

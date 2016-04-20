@@ -3,7 +3,6 @@ package com.qwert2603.testyandex.artist_details;
 import android.widget.ImageView;
 
 import com.qwert2603.testyandex.BaseTest;
-import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.TextUtils;
@@ -11,6 +10,8 @@ import com.qwert2603.testyandex.util.TextUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,6 +32,9 @@ public class ArtistDetailsPresenterTest extends BaseTest {
     @Inject
     DataManager mDataManageMock;
 
+    @Inject
+    List<Artist> mArtistList;
+
     @Before
     public void setUp() {
         getTestComponent().inject(ArtistDetailsPresenterTest.this);
@@ -39,7 +43,7 @@ public class ArtistDetailsPresenterTest extends BaseTest {
 
     @Test
     public void testSetArtist() {
-        Artist toveLoArtist = TestUtils.getTestArtistList().get(0);
+        Artist toveLoArtist = mArtistList.get(0);
 
         ArtistDetailsPresenter artistDetailsPresenter = new ArtistDetailsPresenter();
 
@@ -59,7 +63,7 @@ public class ArtistDetailsPresenterTest extends BaseTest {
 
     @Test
     public void testSetArtistId() {
-        Artist neYoArtist = TestUtils.getTestArtistList().get(1);
+        Artist neYoArtist = mArtistList.get(1);
 
         Mockito.when(mDataManageMock.getArtistById(neYoArtist.getId(), false)).thenReturn(Observable.just(neYoArtist));
 
@@ -80,7 +84,7 @@ public class ArtistDetailsPresenterTest extends BaseTest {
 
     @Test
     public void testOnFabClicked() {
-        Artist toveLoArtist = TestUtils.getTestArtistList().get(0);
+        Artist toveLoArtist = mArtistList.get(0);
         ArtistDetailsPresenter artistDetailsPresenter = new ArtistDetailsPresenter();
         artistDetailsPresenter.setArtist(toveLoArtist);
         artistDetailsPresenter.setCoverType(ArtistDetailsPresenter.CoverType.BIG);

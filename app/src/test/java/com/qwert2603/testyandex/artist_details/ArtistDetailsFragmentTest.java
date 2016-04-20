@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.R;
-import com.qwert2603.testyandex.TestUtils;
 import com.qwert2603.testyandex.model.entity.Artist;
 import com.qwert2603.testyandex.util.TextUtils;
 
@@ -16,6 +15,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Тесты для {@link ArtistDetailsFragment}.
@@ -37,13 +40,21 @@ public class ArtistDetailsFragmentTest extends BaseTest {
 
     private Artist mArtist;
 
+    @Inject
+    ArtistDetailsPresenter mArtistDetailsPresenter;
+
+    @Inject
+    List<Artist> mArtistList;
+
     @Before
     public void setUp() {
+        getTestComponent().inject(ArtistDetailsFragmentTest.this);
+
         mArtistDetailsActivity = Robolectric.setupActivity(ArtistDetailsActivity.class);
         mArtistDetailsFragment = (ArtistDetailsFragment) mArtistDetailsActivity.getFragmentManager()
                 .findFragmentById(R.id.fragment_container);
 
-        mArtist = TestUtils.getTestArtistList().get(0);
+        mArtist = mArtistList.get(0);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -109,7 +120,7 @@ public class ArtistDetailsFragmentTest extends BaseTest {
     @Test
     public void testOnFabClicked() {
         mArtistDetailsFragment.mFab.performClick();
-        Mockito.verify(mArtistDetailsFragment.getPresenter(), Mockito.times(1)).onFabClicked();
+        Mockito.verify(mArtistDetailsPresenter, Mockito.times(1)).onFabClicked();
     }
 
 }
