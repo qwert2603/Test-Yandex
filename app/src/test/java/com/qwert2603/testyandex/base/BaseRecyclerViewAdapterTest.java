@@ -3,6 +3,7 @@ package com.qwert2603.testyandex.base;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import com.qwert2603.testyandex.BaseTest;
 import com.qwert2603.testyandex.artist_details.ArtistDetailsPresenter;
@@ -19,6 +20,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * Тесты для {@link BaseRecyclerViewAdapter}.
+ * Тестируется корректность методов:
+ * {@link BaseRecyclerViewAdapter#isShowingList(List)}
+ * {@link BaseRecyclerViewAdapter#getItemCount()}
+ * {@link BaseRecyclerViewAdapter#onCreateViewHolder(ViewGroup, int)}
+ * {@link BaseRecyclerViewAdapter#onBindViewHolder(BaseRecyclerViewAdapter.RecyclerViewHolder, int)}
+ * {@link BaseRecyclerViewAdapter#onViewRecycled(BaseRecyclerViewAdapter.RecyclerViewHolder)}
+ * {@link BaseRecyclerViewAdapter#onFailedToRecycleView(BaseRecyclerViewAdapter.RecyclerViewHolder)}
+ * {@link BaseRecyclerViewAdapter#setSelectedItemPosition(int)}
+ * {@link BaseRecyclerViewAdapter#setClickCallbacks(BaseRecyclerViewAdapter.ClickCallbacks)}
+ * {@link BaseRecyclerViewAdapter#setLongClickCallbacks(BaseRecyclerViewAdapter.LongClickCallbacks)}
+ */
 public class BaseRecyclerViewAdapterTest extends BaseTest {
 
     private RecyclerView mRecyclerView;
