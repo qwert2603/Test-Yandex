@@ -63,8 +63,6 @@ public class ArtistDetailsFragment extends BaseFragment<ArtistDetailsPresenter> 
 
     @Override
     protected ArtistDetailsPresenter getPresenter() {
-        // в фрагменте с подробностями об исполнителе отображается большая версия изображения-обложки.
-        //return new ArtistDetailsPresenter(getArguments().getInt(artistIdKey), ArtistDetailsPresenter.CoverType.BIG);
         return mArtistDetailsPresenter;
     }
 
