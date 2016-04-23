@@ -43,7 +43,7 @@ public class ModelModule {
 
     @Provides
     @Singleton
-    InternetHelper provideTestYandexApplication() {
+    InternetHelper provideInternetHelper() {
         return new InternetHelper();
     }
 
