@@ -9,6 +9,7 @@ import com.qwert2603.testyandex.model.ArtistServiceHelper;
 import com.qwert2603.testyandex.model.CacheInterceptor;
 import com.qwert2603.testyandex.model.DataManager;
 import com.qwert2603.testyandex.model.InternetHelper;
+import com.qwert2603.testyandex.model.NetworkCacheInterceptor;
 
 import javax.inject.Singleton;
 
@@ -38,4 +39,6 @@ public interface AppComponent {
     void inject(ArtistListAdapter.ArtistDetailsViewHolder artistDetailsViewHolder);
 
     void inject(InternetHelper internetHelper);
+
+    void inject(NetworkCacheInterceptor networkCacheInterceptor);
 }

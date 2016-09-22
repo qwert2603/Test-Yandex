@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -18,7 +17,7 @@ import okhttp3.Response;
  * Если есть подключение к интернету, данные будут загружены заново.
  * Если нет - будет загружена кешированная версия, если она есть. (максимум 4-х недельной давности).
  */
-public class CacheInterceptor implements Interceptor {
+public class NetworkCacheInterceptor implements Interceptor {
 
     @Inject
     Context mAppContext;
@@ -26,21 +25,18 @@ public class CacheInterceptor implements Interceptor {
     @Inject
     InternetHelper mInternetHelper;
 
-    public CacheInterceptor() {
-        TestYandexApplication.getAppComponent().inject(CacheInterceptor.this);
+    public NetworkCacheInterceptor() {
+        TestYandexApplication.getAppComponent().inject(NetworkCacheInterceptor.this);
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
         Request.Builder request = originalRequest.newBuilder();
-        if (mInternetHelper.isInternetConnected()) {
-            // если есть подключение к интернету, обновляем данные.
-            request.cacheControl(CacheControl.FORCE_NETWORK);
-        } else {
-            // если нет подключения к интернету, берер данные из кеша.
-            request.cacheControl(CacheControl.FORCE_CACHE);
-        }
-        return chain.proceed(request.build());
+        Response response = chain.proceed(request.build());
+        return response.newBuilder()
+                .removeHeader("Pragma")
+                .header("Cache-Control", "max-stale=2419200")   // 4 недели
+                .build();
     }
 }

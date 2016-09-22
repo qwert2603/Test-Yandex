@@ -26,7 +26,7 @@ public class ArtistServiceHelper {
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(new Cache(mAppContext.getFilesDir(), 10 * 1024 * 1024));   // 10 Мб
         client.addInterceptor(new CacheInterceptor());
-        client.addNetworkInterceptor(new CacheInterceptor());
+        client.addNetworkInterceptor(new NetworkCacheInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
